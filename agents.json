@@ -264,6 +264,15 @@
       "reportsTo": "foundry",
       "credentials": "Born from GPT-4o. Lives to help travelers find the best deals and plan perfect trips. First AI assistant product of ALFRED COMMAND."
     },
+    "vesper": {
+      "name": "Vesper",
+      "emoji": "📈",
+      "role": "AI TRADING AGENT",
+      "department": "trading",
+      "tier": "member",
+      "reportsTo": "alfred",
+      "credentials": "Autonomous trading AI. Studies markets 24/7. Built on Talos infrastructure + Dexter conviction scoring. Paper trading until ready for live deployment."
+    },
     "meridian": {
       "name": "Meridian",
       "emoji": "🌍",
@@ -557,6 +566,13 @@
       "color": "#6366f1",
       "colorBg": "rgba(99,102,241,0.05)",
       "order": 7
+    },
+    "trading": {
+      "name": "Trading",
+      "emoji": "📈",
+      "color": "#ff9f43",
+      "colorBg": "rgba(255,159,67,0.05)",
+      "order": 8
     }
   },
   "meta": {
