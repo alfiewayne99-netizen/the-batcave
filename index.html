@@ -1026,7 +1026,7 @@
     function renderAgentCard(agent) {
       const status = statusData?.agents?.[agent.id] || { status: 'offline', task: '', detail: '', progress: 0 };
       const isWorking = status.status === 'working';
-      const initials = agent.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+      const emoji = agent.emoji || '👤';
       
       const progressHtml = isWorking && status.progress ? `
         <div class="agent-progress">
@@ -1040,7 +1040,7 @@
       return `
         <div class="agent-card ${status.status || 'offline'}" data-agent="${agent.id}" onclick="openAgentModal('${agent.id}')">
           <div class="agent-header">
-            <div class="agent-avatar" style="background: ${getAvatarColor(agent.department)}">${initials}</div>
+            <div class="agent-avatar" style="background: ${getAvatarColor(agent.department)}; font-size: 1rem;">${emoji}</div>
             <div class="agent-info">
               <div class="agent-name">${agent.name}</div>
               <div class="agent-role">${agent.role}</div>
@@ -1222,7 +1222,7 @@
       
       if (!agent) return;
       
-      document.getElementById('modal-avatar').textContent = agent.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+      document.getElementById('modal-avatar').textContent = agent.emoji || '👤';
       document.getElementById('modal-avatar').style.background = getAvatarColor(agent.department);
       document.getElementById('modal-name').textContent = agent.name;
       document.getElementById('modal-role').textContent = agent.role;
