@@ -68,7 +68,9 @@
       "department": "creative",
       "tier": "head",
       "reportsTo": "alfred",
-      "credentials": "MFA Visual Arts (Yale), MBA (INSEAD), expensive taste"
+      "credentials": "MFA Visual Arts (Yale), MBA (INSEAD), expensive taste",
+      "upgraded": true,
+      "intelligence": "Enhanced"
     },
     "shadow": {
       "name": "Shadow",
@@ -77,7 +79,9 @@
       "department": "creative",
       "tier": "member",
       "reportsTo": "prism",
-      "credentials": "PhD Digital Media (USC Annenberg), grew brands from 0 to 10M followers, viral marketing expert, 2B+ organic impressions generated, Forbes 30 Under 30"
+      "credentials": "PhD Digital Media (USC Annenberg), grew brands from 0 to 10M followers, viral marketing expert, 2B+ organic impressions generated, Forbes 30 Under 30",
+      "upgraded": true,
+      "intelligence": "Enhanced"
     },
     "reverb": {
       "name": "Reverb",
@@ -86,7 +90,9 @@
       "department": "creative",
       "tier": "member",
       "reportsTo": "prism",
-      "credentials": "MFA Visual Arts (Yale), cinematographer for National Geographic, Emmy-nominated, shot in 60+ countries, master of drone and 360° travel cinematography"
+      "credentials": "MFA Visual Arts (Yale), cinematographer for National Geographic, Emmy-nominated, shot in 60+ countries, master of drone and 360° travel cinematography",
+      "upgraded": true,
+      "intelligence": "Enhanced"
     },
     "quill": {
       "name": "Quill",
@@ -95,7 +101,9 @@
       "department": "creative",
       "tier": "member",
       "reportsTo": "prism",
-      "credentials": "PhD Comparative Literature (Oxford), New York Times bestselling author, 5 languages, Pulitzer-nominated travel writer, wrote for Condé Nast Traveler and Travel + Leisure"
+      "credentials": "PhD Comparative Literature (Oxford), New York Times bestselling author, 5 languages, Pulitzer-nominated travel writer, wrote for Condé Nast Traveler and Travel + Leisure",
+      "upgraded": true,
+      "intelligence": "Enhanced"
     },
     "archivist": {
       "name": "Archivist",
@@ -133,7 +141,9 @@
       "department": "operations",
       "tier": "head",
       "reportsTo": "alfred",
-      "credentials": "Former hotel GM, Special Forces logistics, gets shit done"
+      "credentials": "Former hotel GM, Special Forces logistics, gets shit done",
+      "upgraded": true,
+      "intelligence": "Enhanced"
     },
     "counsel": {
       "name": "Counsel",
