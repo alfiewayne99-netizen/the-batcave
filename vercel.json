@@ -1,13 +1,18 @@
 {
   "version": 2,
-  "name": "face-v2",
   "buildCommand": null,
   "outputDirectory": null,
   "framework": null,
+  "builds": [
+    {
+      "src": "api/*.js",
+      "use": "@vercel/node"
+    }
+  ],
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "/server.js"
+      "destination": "/api/$1"
     },
     {
       "source": "/(.*)",
