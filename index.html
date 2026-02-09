@@ -43,11 +43,18 @@
       top: 0; left: 0;
       width: 100%; height: 100%;
       z-index: -2;
-      background: 
-        linear-gradient(180deg, rgba(5,5,10,0.75) 0%, rgba(10,10,18,0.6) 50%, rgba(5,5,10,0.8) 100%),
-        url('cave-bg.jpg?v=2');
+      background-image: url('cave-bg.jpg');
       background-size: cover;
       background-position: center;
+      background-repeat: no-repeat;
+    }
+    
+    .batcave-bg::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(180deg, rgba(5,5,10,0.85) 0%, rgba(10,10,18,0.7) 50%, rgba(5,5,10,0.9) 100%);
+      z-index: -1;
     }
     
     .header {
@@ -697,7 +704,7 @@
       <div class="flex items-center gap-4">
         <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
         <div class="logo">
-          <img src="header-logo.jpg?v=1" alt="Batman Logo" style="height: 42px; width: auto; filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.7));">
+          <img src="batman-logo.jpg" alt="Batman Logo" style="height: 42px; width: auto; filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.7));">
           THE BATCAVE
         </div>
       </div>
@@ -773,6 +780,11 @@
           <span class="nav-icon">🛎️</span>
           <span class="nav-text">Services</span>
           <span class="nav-badge" id="count-services">5</span>
+        </div>
+        <div class="nav-item" onclick="filterByDept('trading')">
+          <span class="nav-icon">📈</span>
+          <span class="nav-text">Trading</span>
+          <span class="nav-badge" id="count-trading">1</span>
         </div>
         <div class="nav-item" onclick="filterByDept('nex')">
           <span class="nav-icon">✈️</span>
@@ -993,9 +1005,51 @@
         console.error('Failed to load data from API, using embedded data:', err);
         // Use embedded data as fallback
         agentsData = embeddedAgentsData.agents;
-        statusData = embeddedStatusData;
+        statusData = generateMockStatus();
+        renderActivity(generateMockActivity());
         updateDepartmentCounts();
       }
+    }
+    
+    function generateMockStatus() {
+      const statuses = { agents: {} };
+      Object.keys(agentsData).forEach(agentId => {
+        const rand = Math.random();
+        let status = 'offline';
+        let task = '';
+        let progress = 0;
+        
+        if (rand > 0.6) {
+          status = 'working';
+          const tasks = ['Analyzing data', 'Building features', 'Monitoring systems', 'Researching markets', 'Processing requests'];
+          task = tasks[Math.floor(Math.random() * tasks.length)];
+          progress = Math.floor(Math.random() * 80) + 10;
+        } else if (rand > 0.3) {
+          status = 'idle';
+          task = 'Standing by';
+        }
+        
+        statuses.agents[agentId] = { status, task, progress };
+      });
+      return statuses;
+    }
+    
+    function generateMockActivity() {
+      const activities = [];
+      const agents = Object.values(agentsData).slice(0, 10);
+      const actions = ['completed task', 'started analysis', 'deployed update', 'finished report', 'initiated scan'];
+      const icons = ['✅', '🎯', '🚀', '📊', '🔍'];
+      
+      for (let i = 0; i < 10; i++) {
+        const agent = agents[Math.floor(Math.random() * agents.length)];
+        activities.push({
+          agent: agent.name,
+          text: actions[Math.floor(Math.random() * actions.length)],
+          icon: icons[Math.floor(Math.random() * icons.length)],
+          timestamp: new Date(Date.now() - i * 60000).toISOString()
+        });
+      }
+      return activities;
     }
     
     function updateDepartmentCounts() {
@@ -1088,6 +1142,7 @@
         operations: 'linear-gradient(145deg, #9d4edd, #7b2cbf)',
         legal: 'linear-gradient(145deg, #ff6b35, #e65100)',
         services: 'linear-gradient(145deg, #4ecdc4, #26a69a)',
+        trading: 'linear-gradient(145deg, #ff9f43, #e67e22)',
         nex: 'linear-gradient(145deg, #6366f1, #4f46e5)'
       };
       return colors[dept] || 'linear-gradient(145deg, #606070, #404050)';
@@ -1325,19 +1380,10 @@
       sidebar.style.display = sidebar.style.display === 'flex' ? 'none' : 'flex';
     }
     
-    // WebSocket
+    // WebSocket (disabled for static deployment)
     function connectWebSocket() {
-      const wsUrl = API_BASE.replace(/^http/, 'ws');
-      ws = new WebSocket(wsUrl);
-      
-      ws.onmessage = (event) => {
-        const msg = JSON.parse(event.data);
-        if (msg.type === 'status') {
-          updateStats();
-        }
-      };
-      
-      ws.onclose = () => setTimeout(connectWebSocket, 5000);
+      // WebSocket not available in static deployment
+      console.log('WebSocket disabled for static deployment');
     }
     
     function formatTime(timestamp) {
