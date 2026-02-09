@@ -1047,10 +1047,8 @@
     </div>
   </div>
   
-  <!-- Sound Toggle -->
-  <div class="sound-toggle" id="sound-toggle" onclick="toggleSound()">
-    🔊
-  </div>
+  <!-- Sound Toggle - DISABLED -->
+  <!-- <div class="sound-toggle" id="sound-toggle" onclick="toggleSound()">🔊</div> -->
   
   <script>
     // Configuration
@@ -1058,7 +1056,7 @@
     let ws = null;
     let agentsData = null;
     let statusData = null;
-    let soundEnabled = true;
+    let soundEnabled = false; // Sounds disabled by default
     let currentFilter = 'all';
     
     // Audio context for sounds
