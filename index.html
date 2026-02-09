@@ -291,10 +291,24 @@
       background: linear-gradient(145deg, rgba(25,25,35,0.85), rgba(18,18,25,0.85));
       border: 1px solid var(--bat-border);
       border-radius: 8px;
-      padding: 0.625rem;
+      padding: 0.75rem;
       cursor: pointer;
       transition: all 0.15s;
       backdrop-filter: blur(10px);
+      position: relative;
+    }
+    
+    .agent-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+      opacity: 0.3;
+      transition: opacity 0.3s;
+      border-radius: 8px 8px 0 0;
     }
     
     .agent-card:hover {
@@ -303,10 +317,40 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 20px rgba(0,212,255,0.1);
     }
     
-    .agent-card.working { border-left: 2px solid var(--neon-green); }
-    .agent-card.idle { border-left: 2px solid var(--neon-orange); }
-    .agent-card.offline { opacity: 0.55; border-left: 2px solid var(--neon-red); }
-    .agent-card.upgraded { border-color: var(--bat-gold); box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); }
+    .agent-card:hover::before {
+      opacity: 1;
+    }
+    
+    .agent-card.working { 
+      border-left: 2px solid var(--neon-green); 
+    }
+    .agent-card.working::before {
+      background: linear-gradient(90deg, var(--neon-green), #00cc6a);
+      opacity: 1;
+    }
+    .agent-card.idle { 
+      border-left: 2px solid var(--neon-orange); 
+    }
+    .agent-card.idle::before {
+      background: linear-gradient(90deg, var(--neon-orange), #ff8c42);
+      opacity: 0.7;
+    }
+    .agent-card.offline { 
+      opacity: 0.55; 
+      border-left: 2px solid var(--neon-red); 
+    }
+    .agent-card.offline::before {
+      background: linear-gradient(90deg, var(--neon-red), #cc0033);
+      opacity: 0.3;
+    }
+    .agent-card.upgraded { 
+      border-color: var(--bat-gold); 
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); 
+    }
+    .agent-card.upgraded::before {
+      background: linear-gradient(90deg, var(--bat-gold), #B8860B);
+      opacity: 0.8;
+    }
     
     .enhanced-badge {
       font-size: 0.5rem;
@@ -318,6 +362,76 @@
       text-transform: uppercase;
       letter-spacing: 0.05em;
       margin-left: 4px;
+    }
+    
+    .tier-badge {
+      display: inline-block;
+      font-size: 0.55rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-top: 4px;
+      font-weight: 700;
+    }
+    
+    .tier-leader {
+      background: linear-gradient(135deg, #ffd700, #ffaa00);
+      color: #000;
+    }
+    
+    .tier-chief {
+      background: linear-gradient(135deg, #c0c0c0, #808080);
+      color: #000;
+    }
+    
+    .tier-head {
+      background: linear-gradient(135deg, #cd7f32, #8b4513);
+      color: #fff;
+    }
+    
+    .tier-member {
+      background: rgba(0, 212, 255, 0.15);
+      color: var(--neon-blue);
+      border: 1px solid rgba(0, 212, 255, 0.3);
+    }
+    
+    .agent-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      font-weight: 600;
+      border: 2px solid var(--bat-border);
+      flex-shrink: 0;
+      position: relative;
+    }
+    
+    .agent-avatar::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      right: -3px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 2px solid var(--bat-black);
+    }
+    
+    .agent-card.working .agent-avatar::after {
+      background: var(--neon-green);
+      box-shadow: 0 0 8px var(--neon-green);
+    }
+    
+    .agent-card.idle .agent-avatar::after {
+      background: var(--neon-orange);
+    }
+    
+    .agent-card.offline .agent-avatar::after {
+      background: var(--neon-red);
     }
     
     .agent-header {
@@ -371,6 +485,50 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+    
+    .task-section {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 6px;
+      padding: 0.5rem 0.625rem;
+      margin-top: 0.5rem;
+      border-left: 2px solid var(--neon-blue);
+    }
+    
+    .agent-card.working .task-section {
+      border-left-color: var(--neon-green);
+      background: rgba(0, 255, 136, 0.05);
+    }
+    
+    .agent-card.idle .task-section {
+      border-left-color: var(--neon-orange);
+      background: rgba(255, 159, 67, 0.05);
+    }
+    
+    .agent-card.offline .task-section {
+      border-left-color: var(--neon-red);
+      opacity: 0.5;
+    }
+    
+    .task-label {
+      font-size: 0.55rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 0.25rem;
+    }
+    
+    .task-text {
+      font-size: 0.75rem;
+      line-height: 1.4;
+      color: var(--text-secondary);
+    }
+    
+    .task-detail {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+      line-height: 1.3;
     }
     
     .agent-progress {
@@ -1013,23 +1171,37 @@
     
     function generateMockStatus() {
       const statuses = { agents: {} };
+      const taskDetails = {
+        'Analyzing data': 'Processing large datasets and extracting insights',
+        'Building features': 'Implementing new functionality for production',
+        'Monitoring systems': 'Checking service health and performance metrics',
+        'Researching markets': 'Analyzing trends and competitive landscape',
+        'Processing requests': 'Handling incoming user and system requests',
+        'Optimizing code': 'Refactoring for better performance and maintainability',
+        'Training models': 'Running ML training jobs on GPU cluster',
+        'Deploying updates': 'Pushing new versions to production environment'
+      };
+      
       Object.keys(agentsData).forEach(agentId => {
         const rand = Math.random();
         let status = 'offline';
         let task = '';
+        let detail = '';
         let progress = 0;
         
         if (rand > 0.6) {
           status = 'working';
-          const tasks = ['Analyzing data', 'Building features', 'Monitoring systems', 'Researching markets', 'Processing requests'];
+          const tasks = Object.keys(taskDetails);
           task = tasks[Math.floor(Math.random() * tasks.length)];
+          detail = taskDetails[task];
           progress = Math.floor(Math.random() * 80) + 10;
         } else if (rand > 0.3) {
           status = 'idle';
           task = 'Standing by';
+          detail = 'Ready for next assignment';
         }
         
-        statuses.agents[agentId] = { status, task, progress };
+        statuses.agents[agentId] = { status, task, detail, progress };
       });
       return statuses;
     }
@@ -1104,6 +1276,7 @@
     function renderAgentCard(agent) {
       const status = statusData?.agents?.[agent.id] || { status: 'offline', task: '', detail: '', progress: 0 };
       const isWorking = status.status === 'working';
+      const isIdle = status.status === 'idle';
       const emoji = agent.emoji || '👤';
       
       const progressHtml = isWorking && status.progress ? `
@@ -1117,17 +1290,32 @@
       
       const upgradedClass = agent.upgraded ? 'upgraded' : '';
       const enhancedBadge = agent.upgraded ? '<span class="enhanced-badge">AI+</span>' : '';
+      const tierBadge = agent.tier ? `<span class="tier-badge tier-${agent.tier}">${agent.tier}</span>` : '';
+      
+      const taskHtml = status.task ? `
+        <div class="task-section">
+          <div class="task-label">Current Task</div>
+          <div class="task-text">${isWorking ? '▸ ' : ''}${status.task}</div>
+          ${status.detail ? `<div class="task-detail">${status.detail}</div>` : ''}
+        </div>
+      ` : `
+        <div class="task-section">
+          <div class="task-label">Current Task</div>
+          <div class="task-text" style="opacity: 0.5;">No active task</div>
+        </div>
+      `;
       
       return `
         <div class="agent-card ${status.status || 'offline'} ${upgradedClass}" data-agent="${agent.id}" onclick="openAgentModal('${agent.id}')">
           <div class="agent-header">
-            <div class="agent-avatar" style="background: ${getAvatarColor(agent.department)}; font-size: 1rem;">${emoji}</div>
+            <div class="agent-avatar" style="background: ${getAvatarColor(agent.department)};">${emoji}</div>
             <div class="agent-info">
               <div class="agent-name">${agent.name}${enhancedBadge}</div>
               <div class="agent-role">${agent.role}</div>
+              ${tierBadge}
             </div>
           </div>
-          <div class="agent-task">${isWorking ? '▸ ' : ''}${status.task || 'No active task'}</div>
+          ${taskHtml}
           ${progressHtml}
         </div>
       `;
@@ -1300,7 +1488,7 @@
     // Modal functions
     function openAgentModal(agentId) {
       const agent = agentsData[agentId];
-      const status = statusData?.agents?.[agentId] || { status: 'offline', task: '', detail: '' };
+      const status = statusData?.agents?.[agentId] || { status: 'offline', task: '', detail: '', progress: 0 };
       
       if (!agent) return;
       
@@ -1308,15 +1496,25 @@
       document.getElementById('modal-avatar').style.background = getAvatarColor(agent.department);
       document.getElementById('modal-name').textContent = agent.name;
       document.getElementById('modal-role').textContent = agent.role;
-      document.getElementById('modal-task').textContent = status.task || 'No active task';
+      
+      const taskText = status.task || 'No active task';
+      const taskDetail = status.detail ? `\n${status.detail}` : '';
+      const progressText = status.progress > 0 ? ` (${status.progress}%)` : '';
+      document.getElementById('modal-task').textContent = taskText + progressText + taskDetail;
+      
       document.getElementById('modal-credentials').textContent = agent.credentials || 'No credentials listed';
       
       const statusBadge = document.getElementById('modal-status');
       statusBadge.className = `status-badge ${status.status || 'offline'}`;
       statusBadge.innerHTML = `<span>●</span> ${(status.status || 'offline').toUpperCase()}`;
       
+      // Add tier info to modal
+      const tierText = agent.tier ? ` [${agent.tier.toUpperCase()}]` : '';
+      document.getElementById('modal-role').textContent = agent.role + tierText;
+      
       // Skills
       const skills = agent.credentials ? extractSkills(agent.credentials) : ['AI/ML', 'Architecture'];
+      if (agent.upgraded) skills.unshift('AI+ Enhanced');
       document.getElementById('modal-skills').innerHTML = skills.map(s => `<span class="skill-tag">${s}</span>`).join('');
       
       document.getElementById('agent-modal').classList.add('active');
