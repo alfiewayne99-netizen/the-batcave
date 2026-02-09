@@ -1,5 +1,13 @@
 [
   {
+    "id": "act-000",
+    "timestamp": "2026-02-09T00:27:30.000Z",
+    "type": "task",
+    "agent": "Vesper",
+    "text": "Initialized trading learning engine - studying BTC momentum",
+    "icon": "📈"
+  },
+  {
     "id": "act-001",
     "timestamp": "2026-02-09T00:26:45.000Z",
     "type": "deploy",
