@@ -473,7 +473,7 @@
         </div>
         <div class="text-right">
           <div class="text-xs" style="color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;">Active Agents</div>
-          <div class="text-sm font-semibold" style="color: var(--neon-blue);" id="active-count">0/48</div>
+          <div class="text-sm font-semibold" style="color: var(--neon-blue);" id="active-count">0/47</div>
         </div>
         <div class="text-right">
           <div class="text-xs" style="color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;">Time</div>
@@ -508,7 +508,7 @@
         <div class="nav-item" onclick="scrollToDept('executive')">
           <span class="nav-icon">👑</span>
           <span class="nav-text">Executive</span>
-          <span class="nav-badge" id="count-executive">3</span>
+          <span class="nav-badge" id="count-executive">2</span>
         </div>
         <div class="nav-item" onclick="scrollToDept('technology')">
           <span class="nav-icon">💻</span>
@@ -553,7 +553,7 @@
       <!-- Stats Bar -->
       <div class="stats-bar">
         <div class="stat-item">
-          <div class="stat-value" id="total-count">48</div>
+          <div class="stat-value" id="total-count">47</div>
           <div class="stat-label">Total Agents</div>
         </div>
         <div class="stat-item">
@@ -737,7 +737,7 @@
       document.getElementById('working-count').textContent = working;
       document.getElementById('idle-count').textContent = idle;
       document.getElementById('offline-count').textContent = offline;
-      document.getElementById('active-count').textContent = `${working + idle}/48`;
+      document.getElementById('active-count').textContent = `${working + idle}/47`;
     }
     
     function renderActivity(activities) {
