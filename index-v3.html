@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Batcave | Agent Command Center</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bat-black: #0a0a0a;
+      --bat-dark: #111111;
+      --bat-gray: #1a1a1a;
+      --bat-light: #2a2a2a;
+      --neon-blue: #00d4ff;
+      --neon-purple: #9d4edd;
+      --neon-green: #00ff88;
+      --neon-orange: #ff6b35;
+      --neon-red: #ff0040;
+      --text-primary: #ffffff;
+      --text-secondary: #888888;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bat-black);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    
+    /* Batcave Background */
+    .batcave-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: 
+        radial-gradient(ellipse at 20% 80%, rgba(0, 212, 255, 0.03) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(157, 78, 221, 0.03) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0.8) 0%, #0a0a0a 100%),
+        linear-gradient(180deg, #0a0a0a 0%, #111111 50%, #0a0a0a 100%);
+    }
+    
+    .batcave-grid {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background-image: 
+        linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      opacity: 0.5;
+    }
+    
+    .bat-symbol {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 400px;
+      opacity: 0.02;
+      z-index: -1;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60'%3E%3Cpath fill='%2300d4ff' d='M50 35c-5-8-10-12-15-12-8 0-15 5-20 15-2-5-5-8-10-8s-8 3-5 10c5-3 10-2 15 5 3-8 8-12 15-12 5 0 10 3 15 10 5-7 10-10 15-10 7 0 12 4 15 12 5-7 10-8 15-5 3-7 0-10-5-10s-8 3-10 8c-5-10-12-15-20-15-5 0-10 4-15 12z'/%3E%3C/svg%3E") no-repeat center;
+      background-size: contain;
+    }
+    
+    /* Header */
+    .header {
+      background: linear-gradient(180deg, rgba(17,17,17,0.95) 0%, rgba(17,17,17,0.8) 100%);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .logo {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    
+    .logo-icon {
+      width: 40px;
+      height: 24px;
+      background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60'%3E%3Cpath d='M50 35c-5-8-10-12-15-12-8 0-15 5-20 15-2-5-5-8-10-8s-8 3-5 10c5-3 10-2 15 5 3-8 8-12 15-12 5 0 10 3 15 10 5-7 10-10 15-10 7 0 12 4 15 12 5-7 10-8 15-5 3-7 0-10-5-10s-8 3-10 8c-5-10-12-15-20-15-5 0-10 4-15 12z'/%3E%3C/svg%3E") no-repeat center;
+      mask-size: contain;
+    }
+    
+    /* Stats Bar */
+    .stats-bar {
+      display: flex;
+      gap: 2rem;
+      padding: 1rem 2rem;
+      background: rgba(17, 17, 17, 0.6);
+      border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+      overflow-x: auto;
+    }
+    
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    
+    .stat-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-secondary);
+    }
+    
+    .stat-value {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--neon-blue);
+    }
+    
+    /* Main Content */
+    .main-content {
+      padding: 2rem;
+      max-width: 1800px;
+      margin: 0 auto;
+    }
+    
+    /* Department Section */
+    .department {
+      margin-bottom: 3rem;
+    }
+    
+    .dept-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid;
+      border-image: linear-gradient(90deg, var(--neon-blue), transparent) 1;
+    }
+    
+    .dept-icon {
+      font-size: 1.5rem;
+    }
+    
+    .dept-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    
+    .dept-count {
+      margin-left: auto;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      background: rgba(0, 212, 255, 0.1);
+      padding: 0.25rem 0.75rem;
+      border-radius: 1rem;
+    }
+    
+    /* Agent Cards Grid */
+    .agents-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    /* Agent Card */
+    .agent-card {
+      background: linear-gradient(145deg, rgba(26,26,26,0.9), rgba(17,17,17,0.9));
+      border: 1px solid rgba(0, 212, 255, 0.1);
+      border-radius: 12px;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .agent-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+      opacity: 0.5;
+      transition: opacity 0.3s;
+    }
+    
+    .agent-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0, 212, 255, 0.3);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 212, 255, 0.1);
+    }
+    
+    .agent-card:hover::before {
+      opacity: 1;
+    }
+    
+    .agent-card.working::before {
+      background: linear-gradient(90deg, var(--neon-green), #00cc6a);
+      opacity: 1;
+    }
+    
+    .agent-card.idle::before {
+      background: linear-gradient(90deg, var(--neon-orange), #ff8c42);
+      opacity: 0.7;
+    }
+    
+    .agent-card.offline::before {
+      background: linear-gradient(90deg, var(--neon-red), #cc0033);
+      opacity: 0.3;
+    }
+    
+    .agent-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .agent-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      background: linear-gradient(145deg, rgba(0,212,255,0.1), rgba(157,78,221,0.1));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      position: relative;
+    }
+    
+    .agent-avatar::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid var(--bat-gray);
+    }
+    
+    .agent-card.working .agent-avatar::after {
+      background: var(--neon-green);
+      box-shadow: 0 0 10px var(--neon-green);
+    }
+    
+    .agent-card.idle .agent-avatar::after {
+      background: var(--neon-orange);
+    }
+    
+    .agent-card.offline .agent-avatar::after {
+      background: var(--neon-red);
+    }
+    
+    .agent-info {
+      flex: 1;
+    }
+    
+    .agent-name {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    
+    .agent-role {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--neon-blue);
+      font-weight: 500;
+    }
+    
+    .agent-tier {
+      display: inline-block;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      margin-top: 0.5rem;
+      font-weight: 600;
+    }
+    
+    .tier-leader {
+      background: linear-gradient(135deg, #ffd700, #ffaa00);
+      color: #000;
+    }
+    
+    .tier-chief {
+      background: linear-gradient(135deg, #c0c0c0, #808080);
+      color: #000;
+    }
+    
+    .tier-head {
+      background: linear-gradient(135deg, #cd7f32, #8b4513);
+      color: #fff;
+    }
+    
+    .tier-member {
+      background: rgba(0, 212, 255, 0.15);
+      color: var(--neon-blue);
+      border: 1px solid rgba(0, 212, 255, 0.3);
+    }
+    
+    .agent-task {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 1rem;
+      border-left: 3px solid var(--neon-blue);
+    }
+    
+    .agent-card.working .agent-task {
+      border-left-color: var(--neon-green);
+    }
+    
+    .agent-card.idle .agent-task {
+      border-left-color: var(--neon-orange);
+    }
+    
+    .agent-card.offline .agent-task {
+      border-left-color: var(--neon-red);
+      opacity: 0.5;
+    }
+    
+    .task-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+    
+    .task-text {
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    
+    .task-detail {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-top: 0.5rem;
+    }
+    
+    /* Progress Bar */
+    .progress-bar {
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2px;
+      margin-top: 0.75rem;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+      border-radius: 2px;
+      transition: width 0.3s ease;
+    }
+    
+    .agent-card.working .progress-fill {
+      background: linear-gradient(90deg, var(--neon-green), #00cc6a);
+    }
+    
+    /* Last Active */
+    .last-active {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-top: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--neon-green);
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    /* Activity Feed */
+    .activity-section {
+      position: fixed;
+      right: 0;
+      top: 0;
+      width: 350px;
+      height: 100vh;
+      background: linear-gradient(180deg, rgba(17,17,17,0.98), rgba(10,10,10,0.98));
+      border-left: 1px solid rgba(0, 212, 255, 0.1);
+      padding: 2rem;
+      overflow-y: auto;
+      z-index: 50;
+    }
+    
+    .activity-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    
+    .activity-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .activity-icon {
+      font-size: 1.25rem;
+    }
+    
+    .activity-content {
+      flex: 1;
+    }
+    
+    .activity-text {
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    
+    .activity-agent {
+      color: var(--neon-blue);
+      font-weight: 500;
+    }
+    
+    .activity-time {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-top: 0.25rem;
+    }
+    
+    /* Responsive */
+    @media (max-width: 1200px) {
+      .activity-section {
+        position: relative;
+        width: 100%;
+        height: auto;
+        border-left: none;
+        border-top: 1px solid rgba(0, 212, 255, 0.1);
+      }
+      
+      .main-content {
+        padding-right: 2rem;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .agents-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .stats-bar {
+        flex-wrap: wrap;
+      }
+    }
+    
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: var(--bat-dark);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: rgba(0, 212, 255, 0.3);
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 212, 255, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <!-- Background -->
+  <div class="batcave-bg"></div>
+  <div class="batcave-grid"></div>
+  <div class="bat-symbol"></div>
+  
+  <!-- Header -->
+  <header class="header">
+    <div class="flex justify-between items-center">
+      <div class="logo">
+        <div class="logo-icon"></div>
+        THE BATCAVE
+      </div>
+      <div class="flex items-center gap-6">
+        <div class="text-right">
+          <div class="text-xs text-gray-400 uppercase tracking-wider">System Status</div>
+          <div class="text-sm font-semibold text-green-400">OPERATIONAL</div>
+        </div>
+        <div class="text-right">
+          <div class="text-xs text-gray-400 uppercase tracking-wider">Active Agents</div>
+          <div class="text-sm font-semibold text-blue-400" id="active-count">0/48</div>
+        </div>
+        <div class="text-right">
+          <div class="text-xs text-gray-400 uppercase tracking-wider">Time</div>
+          <div class="text-sm font-semibold" id="clock">--:--</div>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <!-- Stats Bar -->
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="stat-label">Total Agents</div>
+      <div class="stat-value">48</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Working</div>
+      <div class="stat-value text-green-400" id="working-count">0</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Idle</div>
+      <div class="stat-value text-orange-400" id="idle-count">0</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Offline</div>
+      <div class="stat-value text-red-400" id="offline-count">48</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Projects Complete</div>
+      <div class="stat-value">127</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Est. Savings</div>
+      <div class="stat-value text-purple-400">$2.4M</div>
+    </div>
+  </div>
+  
+  <!-- Main Content -->
+  <div class="flex">
+    <main class="main-content flex-1">
+      <!-- Departments will be populated here -->
+      <div id="departments-container"></div>
+    </main>
+    
+    <!-- Activity Feed -->
+    <aside class="activity-section">
+      <h2 class="activity-title">
+        <span>📡</span>
+        Live Feed
+      </h2>
+      <div id="activity-feed">
+        <div class="text-center text-gray-500 py-8">Connecting...</div>
+      </div>
+    </aside>
+  </div>
+  
+  <script>
+    // Configuration
+    const API_BASE = window.location.origin;
+    let ws = null;
+    let agentsData = null;
+    let statusData = null;
+    
+    // Department configs
+    const departments = {
+      executive: { name: 'Executive', icon: '👑', color: '#ffd700' },
+      technology: { name: 'Technology', icon: '💻', color: '#00d4ff' },
+      creative: { name: 'Creative', icon: '🎨', color: '#ff6b9d' },
+      finance: { name: 'Finance', icon: '💰', color: '#00ff88' },
+      operations: { name: 'Operations', icon: '⚙️', color: '#9d4edd' },
+      legal: { name: 'Legal', icon: '⚖️', color: '#ff6b35' },
+      services: { name: 'Services', icon: '🛎️', color: '#4ecdc4' }
+    };
+    
+    // Initialize
+    async function init() {
+      await loadData();
+      renderDepartments();
+      updateStats();
+      connectWebSocket();
+      updateClock();
+      setInterval(updateClock, 1000);
+    }
+    
+    // Load data
+    async function loadData() {
+      try {
+        const [configRes, statusRes, activityRes] = await Promise.all([
+          fetch(`${API_BASE}/api/config`),
+          fetch(`${API_BASE}/api/status`),
+          fetch(`${API_BASE}/api/activity?limit=20`)
+        ]);
+        
+        const config = await configRes.json();
+        statusData = await statusRes.json();
+        const activity = await activityRes.json();
+        
+        agentsData = config.agents;
+        renderActivity(activity.activity);
+      } catch (err) {
+        console.error('Failed to load data:', err);
+      }
+    }
+    
+    // Render departments
+    function renderDepartments() {
+      const container = document.getElementById('departments-container');
+      container.innerHTML = '';
+      
+      // Group agents by department
+      const deptAgents = {};
+      Object.entries(agentsData).forEach(([id, agent]) => {
+        const dept = agent.department || 'other';
+        if (!deptAgents[dept]) deptAgents[dept] = [];
+        deptAgents[dept].push({ id, ...agent });
+      });
+      
+      // Render each department
+      Object.entries(departments).forEach(([deptId, dept]) => {
+        const agents = deptAgents[deptId] || [];
+        if (agents.length === 0) return;
+        
+        // Sort by tier
+        const tierOrder = { leader: 0, chief: 1, head: 2, member: 3 };
+        agents.sort((a, b) => tierOrder[a.tier] - tierOrder[b.tier]);
+        
+        const deptSection = document.createElement('div');
+        deptSection.className = 'department';
+        deptSection.innerHTML = `
+          <div class="dept-header">
+            <span class="dept-icon">${dept.icon}</span>
+            <h2 class="dept-title" style="color: ${dept.color}">${dept.name}</h2>
+            <span class="dept-count">${agents.length} agents</span>
+          </div>
+          <div class="agents-grid">
+            ${agents.map(agent => renderAgentCard(agent)).join('')}
+          </div>
+        `;
+        container.appendChild(deptSection);
+      });
+    }
+    
+    // Render agent card
+    function renderAgentCard(agent) {
+      const status = statusData?.agents?.[agent.id] || { status: 'offline' };
+      const isWorking = status.status === 'working';
+      const isIdle = status.status === 'idle';
+      const isOffline = status.status === 'offline' || !status.status;
+      
+      const taskText = status.task || 'No active task';
+      const taskDetail = status.detail ? `<div class="task-detail">${status.detail}</div>` : '';
+      
+      const progressBar = status.progress ? `
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: ${status.progress}%"></div>
+        </div>
+      ` : '';
+      
+      const lastActive = status.lastActive ? formatTime(status.lastActive) : 'Never';
+      const pulse = isWorking ? '<div class="pulse"></div>' : '';
+      
+      return `
+        <div class="agent-card ${status.status || 'offline'}" data-agent="${agent.id}">
+          <div class="agent-header">
+            <div class="agent-avatar">${agent.emoji}</div>
+            <div class="agent-info">
+              <div class="agent-name">${agent.name}</div>
+              <div class="agent-role">${agent.role}</div>
+              <span class="agent-tier tier-${agent.tier}">${agent.tier}</span>
+            </div>
+          </div>
+          <div class="agent-task">
+            <div class="task-label">Current Task</div>
+            <div class="task-text">${taskText}</div>
+            ${taskDetail}
+            ${progressBar}
+          </div>
+          <div class="last-active">
+            ${pulse}
+            <span>${isWorking ? 'Active now' : lastActive}</span>
+          </div>
+        </div>
+      `;
+    }
+    
+    // Update stats
+    function updateStats() {
+      if (!statusData) return;
+      
+      const agents = Object.values(statusData.agents || {});
+      const working = agents.filter(a => a.status === 'working').length;
+      const idle = agents.filter(a => a.status === 'idle').length;
+      const offline = agents.filter(a => !a.status || a.status === 'offline').length;
+      
+      document.getElementById('working-count').textContent = working;
+      document.getElementById('idle-count').textContent = idle;
+      document.getElementById('offline-count').textContent = offline;
+      document.getElementById('active-count').textContent = `${working + idle}/48`;
+    }
+    
+    // Render activity feed
+    function renderActivity(activities) {
+      const feed = document.getElementById('activity-feed');
+      if (!activities || activities.length === 0) {
+        feed.innerHTML = '<div class="text-center text-gray-500 py-8">No recent activity</div>';
+        return;
+      }
+      
+      feed.innerHTML = activities.map(act => `
+        <div class="activity-item">
+          <span class="activity-icon">${act.icon || '⚡'}</span>
+          <div class="activity-content">
+            <div class="activity-text">
+              <span class="activity-agent">${act.agent}</span> ${act.text}
+            </div>
+            <div class="activity-time">${formatTime(act.timestamp)}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    // WebSocket connection
+    function connectWebSocket() {
+      const wsUrl = API_BASE.replace(/^http/, 'ws');
+      ws = new WebSocket(wsUrl);
+      
+      ws.onopen = () => {
+        console.log('Connected to Batcave');
+      };
+      
+      ws.onmessage = (event) => {
+        const msg = JSON.parse(event.data);
+        
+        if (msg.type === 'status') {
+          statusData.agents[msg.agent] = msg.data;
+          updateAgentCard(msg.agent, msg.data);
+          updateStats();
+        } else if (msg.type === 'activity') {
+          prependActivity(msg.data);
+        }
+      };
+      
+      ws.onclose = () => {
+        console.log('Disconnected, reconnecting...');
+        setTimeout(connectWebSocket, 3000);
+      };
+    }
+    
+    // Update single agent card
+    function updateAgentCard(agentId, data) {
+      const card = document.querySelector(`[data-agent="${agentId}"]`);
+      if (!card) return;
+      
+      card.className = `agent-card ${data.status || 'offline'}`;
+      
+      const taskEl = card.querySelector('.task-text');
+      if (taskEl) taskEl.textContent = data.task || 'No active task';
+      
+      const detailEl = card.querySelector('.task-detail');
+      if (detailEl) detailEl.textContent = data.detail || '';
+      
+      const progressEl = card.querySelector('.progress-fill');
+      if (progressEl && data.progress) {
+        progressEl.style.width = `${data.progress}%`;
+      }
+    }
+    
+    // Prepend activity
+    function prependActivity(activity) {
+      const feed = document.getElementById('activity-feed');
+      const item = document.createElement('div');
+      item.className = 'activity-item';
+      item.innerHTML = `
+        <span class="activity-icon">${activity.icon || '⚡'}</span>
+        <div class="activity-content">
+          <div class="activity-text">
+            <span class="activity-agent">${activity.agent}</span> ${activity.text}
+          </div>
+          <div class="activity-time">Just now</div>
+        </div>
+      `;
+      feed.insertBefore(item, feed.firstChild);
+      
+      // Keep only last 20
+      while (feed.children.length > 20) {
+        feed.removeChild(feed.lastChild);
+      }
+    }
+    
+    // Format time
+    function formatTime(timestamp) {
+      const date = new Date(timestamp);
+      const now = new Date();
+      const diff = Math.floor((now - date) / 1000);
+      
+      if (diff < 60) return 'Just now';
+      if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+      if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+      return date.toLocaleDateString();
+    }
+    
+    // Update clock
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('clock').textContent = 
+        now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+    }
+    
+    // Start
+    init();
+  </script>
+</body>
+</html>

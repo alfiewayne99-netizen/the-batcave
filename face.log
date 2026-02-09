@@ -1,0 +1,21 @@
+
+╔════════════════════════════════════════════╗
+║       RAVEN FACE v2 - PRODUCTION READY     ║
+╠════════════════════════════════════════════╣
+║  Dashboard: http://localhost:3000           ║
+║  API:       http://localhost:3000/api       ║
+║  WebSocket: ws://localhost:3000             ║
+║                                            ║
+║  Agents:    22  configured             ║
+║  Depts:     7   departments            ║
+║                                            ║
+║  v2 Features:                              ║
+║  ✓ Sound notifications                     ║
+║  ✓ PWA installable                         ║
+║  ✓ Agent uptime tracking                   ║
+║  ✓ Error indicators                        ║
+║  ✓ Settings panel                          ║
+╚════════════════════════════════════════════╝
+    
+[WS] Client connected (1 total)
+[Server] Shutting down...

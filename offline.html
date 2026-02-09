@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raven Command - Offline</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #05050a;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+            color: rgba(255,255,255,0.9);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+        }
+        .icon { font-size: 4rem; margin-bottom: 1rem; opacity: 0.5; }
+        h1 { font-size: 1.5rem; margin-bottom: 0.5rem; color: rgba(255,255,255,0.8); }
+        p { color: rgba(255,255,255,0.4); font-size: 0.9rem; margin-bottom: 2rem; }
+        .retry-btn {
+            background: rgba(0,200,255,0.1);
+            border: 1px solid rgba(0,200,255,0.3);
+            color: #00c8ff;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .retry-btn:hover { background: rgba(0,200,255,0.2); }
+        .status { margin-top: 2rem; font-size: 0.75rem; color: rgba(255,255,255,0.25); }
+    </style>
+</head>
+<body>
+    <div class="icon">📡</div>
+    <h1>Connection Lost</h1>
+    <p>Raven Command requires a network connection to display real-time agent status.</p>
+    <button class="retry-btn" onclick="location.reload()">Retry Connection</button>
+    <div class="status">Waiting for network...</div>
+    <script>
+        // Auto-retry when back online
+        window.addEventListener('online', () => location.reload());
+    </script>
+</body>
+</html>

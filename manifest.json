@@ -1,0 +1,24 @@
+{
+  "name": "ALFRED COMMAND",
+  "short_name": "ALFRED",
+  "description": "Alfred AI Dashboard - Tajan's Collaborator",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#05050a",
+  "theme_color": "#1e1b4b",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

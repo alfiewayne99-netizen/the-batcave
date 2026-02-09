@@ -1,0 +1,1887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ALFRED COMMAND</title>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#05050a" id="theme-color">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bg: 'var(--color-bg)',
+                        surface: 'var(--color-surface)',
+                        border: 'var(--color-border)',
+                        'text-dim': 'var(--color-text-dim)',
+                        'text-muted': 'var(--color-text-muted)',
+                        btc: '#f7931a',
+                        exec: '#f7931a',
+                        tech: '#00c8ff',
+                        creative: '#ec4899',
+                        finance: '#f59e0b',
+                        ops: '#22c55e',
+                        legal: '#8b5cf6',
+                        services: '#06b6d4'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* CSS Variables for theming */
+        :root {
+            /* Dark theme (default) */
+            --color-bg: #05050a;
+            --color-surface: rgba(255,255,255,0.02);
+            --color-border: rgba(255,255,255,0.06);
+            --color-text-dim: rgba(255,255,255,0.5);
+            --color-text-muted: rgba(255,255,255,0.25);
+            --color-text-primary: rgba(255,255,255,0.9);
+            --color-text-secondary: rgba(255,255,255,0.7);
+            --color-white: #ffffff;
+            --color-grid-line: rgba(255,255,255,0.015);
+            --color-grid-glow: rgba(0,200,255,0.03);
+            --color-modal-bg: rgba(0,0,0,0.7);
+            --color-card-bg: rgba(0,0,0,0.5);
+            --color-surface-hover: rgba(255,255,255,0.08);
+            --color-border-hover: rgba(255,255,255,0.2);
+            --color-input-bg: rgba(255,255,255,0.05);
+            --color-toggle-bg: rgba(255,255,255,0.1);
+            --color-toast-bg: rgba(0, 0, 0, 0.95);
+            --color-error-bg: rgba(239, 68, 68, 0.1);
+            --color-critical-bg: rgba(239, 68, 68, 0.1);
+        }
+
+        [data-theme="light"] {
+            /* Light theme */
+            --color-bg: #f8fafc;
+            --color-surface: rgba(15, 23, 42, 0.02);
+            --color-border: rgba(15, 23, 42, 0.12);
+            --color-text-dim: rgba(15, 23, 42, 0.5);
+            --color-text-muted: rgba(15, 23, 42, 0.35);
+            --color-text-primary: #0f172a;
+            --color-text-secondary: rgba(15, 23, 42, 0.7);
+            --color-white: #0f172a;
+            --color-grid-line: rgba(15, 23, 42, 0.05);
+            --color-grid-glow: rgba(0,200,255,0.06);
+            --color-modal-bg: rgba(0,0,0,0.4);
+            --color-card-bg: rgba(255,255,255,0.7);
+            --color-surface-hover: rgba(15, 23, 42, 0.06);
+            --color-border-hover: rgba(15, 23, 42, 0.3);
+            --color-input-bg: rgba(15, 23, 42, 0.05);
+            --color-toggle-bg: rgba(15, 23, 42, 0.15);
+            --color-toast-bg: rgba(15, 23, 42, 0.95);
+            --color-error-bg: rgba(239, 68, 68, 0.08);
+            --color-critical-bg: rgba(239, 68, 68, 0.08);
+        }
+
+        /* Smooth transitions for theme changes */
+        *, *::before, *::after {
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background: var(--color-bg); 
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif; 
+            color: var(--color-text-primary);
+            overflow: hidden;
+        }
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            background-image: 
+                radial-gradient(circle at 50% 20%, var(--color-grid-glow) 0%, transparent 50%),
+                linear-gradient(var(--color-grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--color-grid-line) 1px, transparent 1px);
+            background-size: 100% 100%, 60px 60px, 60px 60px;
+            pointer-events: none;
+        }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .pulse { animation: pulse 2s ease-in-out infinite; }
+        @keyframes glow { 
+            0%, 100% { box-shadow: 0 0 10px var(--glow-color), 0 0 20px var(--glow-color); } 
+            50% { box-shadow: 0 0 20px var(--glow-color), 0 0 40px var(--glow-color); } 
+        }
+        .agent-card.working { 
+            animation: glow 2s ease-in-out infinite;
+            border-width: 2px !important;
+        }
+        .agent-card:not(.working) {
+            animation: none;
+            border-width: 1px;
+        }
+        .scrollbar-thin::-webkit-scrollbar { width: 4px; }
+        .scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(0,200,255,0.2); border-radius: 2px; }
+        .fade-in { animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Agent card hover states */
+        .agent-card {
+            cursor: pointer;
+            transform: scale(1);
+            transition: all 0.2s ease;
+        }
+        .agent-card:hover {
+            transform: scale(1.05);
+            background: var(--color-surface-hover) !important;
+            border-color: var(--color-border-hover) !important;
+        }
+        .agent-card:active {
+            transform: scale(0.98);
+        }
+        
+        /* Settings modal styles */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: var(--color-modal-bg);
+            backdrop-filter: blur(4px);
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+        }
+        .modal-backdrop.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.95);
+            z-index: 101;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+        }
+        .modal-backdrop.open + .modal-content,
+        .modal-content.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        
+        /* Toggle switch */
+        .toggle {
+            position: relative;
+            width: 40px;
+            height: 22px;
+            background: var(--color-toggle-bg);
+            border-radius: 11px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .toggle.active {
+            background: #00c8ff;
+        }
+        .toggle::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 18px;
+            height: 18px;
+            background: var(--color-white);
+            border-radius: 50%;
+            transition: transform 0.2s ease, background-color 0.3s ease;
+        }
+        .toggle.active::after {
+            transform: translateX(18px);
+        }
+        
+        /* Error indicator */
+        .error-indicator {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 8px;
+            height: 8px;
+            background: #ef4444;
+            border-radius: 50%;
+            box-shadow: 0 0 6px #ef4444;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        /* Critical alert flashing */
+        @keyframes flashRed {
+            0%, 100% { background: var(--color-critical-bg); }
+            50% { background: rgba(239, 68, 68, 0.3); }
+        }
+        .critical-alert {
+            animation: flashRed 0.5s ease-in-out infinite;
+        }
+        
+        /* PWA install banner */
+        .pwa-banner {
+            position: fixed;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            z-index: 99;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .pwa-banner.visible {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        
+        /* Toast notifications */
+        .toast-container {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            pointer-events: none;
+        }
+        .toast {
+            pointer-events: auto;
+            min-width: 280px;
+            max-width: 400px;
+            padding: 12px 16px;
+            background: var(--color-toast-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            transform: translateX(120%);
+            transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+            opacity: 0;
+        }
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        .toast.success { border-left: 3px solid #22c55e; }
+        .toast.error { border-left: 3px solid #ef4444; }
+        .toast.warning { border-left: 3px solid #f59e0b; }
+        .toast.info { border-left: 3px solid #00c8ff; }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+        
+        /* Error badge on header */
+        .error-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            min-width: 18px;
+            height: 18px;
+            padding: 0 5px;
+            background: #ef4444;
+            border-radius: 9px;
+            font-size: 10px;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 8px #ef4444;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        /* Checkbox styles for settings */
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .checkbox {
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--color-text-dim);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        .checkbox.checked {
+            background: #00c8ff;
+            border-color: #00c8ff;
+        }
+        .checkbox svg {
+            width: 10px;
+            height: 10px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .checkbox.checked svg {
+            opacity: 1;
+        }
+        
+        /* Time input styles */
+        .time-input {
+            width: 60px;
+            background: var(--color-input-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            padding: 4px 8px;
+            color: var(--color-text-primary);
+            font-size: 12px;
+            text-align: center;
+        }
+        .time-input:focus {
+            outline: none;
+            border-color: #00c8ff;
+        }
+
+        /* Theme toggle button */
+        .theme-toggle-btn {
+            padding: 6px;
+            border-radius: 8px;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        .theme-toggle-btn:hover {
+            background: var(--color-surface-hover);
+            border-color: var(--color-border-hover);
+        }
+        .theme-toggle-btn svg {
+            width: 18px;
+            height: 18px;
+            color: var(--color-text-dim);
+        }
+        .theme-toggle-btn:hover svg {
+            color: #00c8ff;
+        }
+
+        /* Department colors in light mode - maintain contrast */
+        [data-theme="light"] .dept-box {
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+    </style>
+</head>
+<body class="h-screen overflow-hidden">
+    <div class="bg-grid"></div>
+    
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+    
+    <!-- Settings Modal Backdrop -->
+    <div id="settings-backdrop" class="modal-backdrop" onclick="closeSettings()"></div>
+    
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal-content w-[340px] bg-black/90 border border-white/10 rounded-xl p-4 max-h-[85vh] overflow-auto">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-sm font-bold text-white flex items-center gap-2">
+                <svg class="w-4 h-4 text-tech" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                Settings
+            </h2>
+            <button onclick="closeSettings()" class="text-white/50 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+        
+        <div class="space-y-3">
+            <!-- Sound Notifications -->
+            <div class="flex items-center justify-between p-2 rounded-lg bg-white/5">
+                <div>
+                    <div class="text-xs font-medium text-white">Sound Notifications</div>
+                    <div class="text-[10px] text-text-muted">Play sounds for events</div>
+                </div>
+                <div id="toggle-sound" class="toggle" onclick="toggleSetting('sound')"></div>
+            </div>
+            
+            <!-- Desktop Notifications -->
+            <div class="flex items-center justify-between p-2 rounded-lg bg-white/5">
+                <div>
+                    <div class="text-xs font-medium text-white">Desktop Notifications</div>
+                    <div class="text-[10px] text-text-muted">Show browser notifications</div>
+                </div>
+                <div id="toggle-desktop" class="toggle" onclick="toggleSetting('desktop')"></div>
+            </div>
+            
+            <!-- Notification Settings Section -->
+            <div class="pt-2 border-t border-white/10">
+                <div class="text-[10px] font-semibold text-tech uppercase tracking-wider mb-2">Notification Events</div>
+                
+                <!-- Critical Errors -->
+                <div class="flex items-center justify-between p-2 rounded-lg bg-white/5 mb-2">
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm">🚨</span>
+                        <div>
+                            <div class="text-xs font-medium text-white">Critical Errors</div>
+                            <div class="text-[10px] text-text-muted">Agent errors, system failures</div>
+                        </div>
+                    </div>
+                    <div id="toggle-notify-errors" class="toggle" onclick="toggleSetting('notifyErrors')"></div>
+                </div>
+                
+                <!-- Task Started -->
+                <div class="flex items-center justify-between p-2 rounded-lg bg-white/5 mb-2">
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm">⚡</span>
+                        <div>
+                            <div class="text-xs font-medium text-white">Task Started</div>
+                            <div class="text-[10px] text-text-muted">Agent begins new work</div>
+                        </div>
+                    </div>
+                    <div id="toggle-notify-start" class="toggle" onclick="toggleSetting('notifyStart')"></div>
+                </div>
+                
+                <!-- Task Completed -->
+                <div class="flex items-center justify-between p-2 rounded-lg bg-white/5 mb-2">
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm">✅</span>
+                        <div>
+                            <div class="text-xs font-medium text-white">Task Completed</div>
+                            <div class="text-[10px] text-text-muted">Agent finishes task</div>
+                        </div>
+                    </div>
+                    <div id="toggle-notify-complete" class="toggle" onclick="toggleSetting('notifyComplete')"></div>
+                </div>
+                
+                <!-- Agent Online -->
+                <div class="flex items-center justify-between p-2 rounded-lg bg-white/5 mb-2">
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm">🟢</span>
+                        <div>
+                            <div class="text-xs font-medium text-white">High-Priority Online</div>
+                            <div class="text-[10px] text-text-muted">Exec/lead agents come online</div>
+                        </div>
+                    </div>
+                    <div id="toggle-notify-online" class="toggle" onclick="toggleSetting('notifyOnline')"></div>
+                </div>
+            </div>
+            
+            <!-- Quiet Hours -->
+            <div class="pt-2 border-t border-white/10">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="text-[10px] font-semibold text-tech uppercase tracking-wider">Quiet Hours</div>
+                    <div id="toggle-quiet-hours" class="toggle toggle-small" onclick="toggleSetting('quietHours')"></div>
+                </div>
+                <div id="quiet-hours-config" class="flex items-center gap-2 text-[10px] text-text-dim opacity-50 pointer-events-none transition-opacity">
+                    <input type="time" id="quiet-start" class="time-input" value="22:00" onchange="updateQuietHours()">
+                    <span>to</span>
+                    <input type="time" id="quiet-end" class="time-input" value="08:00" onchange="updateQuietHours()">
+                </div>
+            </div>
+            
+            <!-- Auto Refresh -->
+            <div class="flex items-center justify-between p-2 rounded-lg bg-white/5">
+                <div>
+                    <div class="text-xs font-medium text-white">Auto Refresh</div>
+                    <div class="text-[10px] text-text-muted">Auto-reconnect on disconnect</div>
+                </div>
+                <div id="toggle-autorefresh" class="toggle" onclick="toggleSetting('autorefresh')"></div>
+            </div>
+            
+            <!-- Show Offline Agents -->
+            <div class="flex items-center justify-between p-2 rounded-lg bg-white/5">
+                <div>
+                    <div class="text-xs font-medium text-white">Show Offline Agents</div>
+                    <div class="text-[10px] text-text-muted">Display inactive agents</div>
+                </div>
+                <div id="toggle-showoffline" class="toggle" onclick="toggleSetting('showoffline')"></div>
+            </div>
+        </div>
+        
+        <div class="mt-4 pt-3 border-t border-white/10 text-center">
+            <div class="text-[9px] text-text-muted">ALFRED COMMAND v1.1</div>
+        </div>
+    </div>
+    
+    <!-- PWA Install Banner -->
+    <div id="pwa-banner" class="pwa-banner">
+        <div class="flex items-center gap-3 px-4 py-2.5 bg-tech/20 border border-tech/30 rounded-xl">
+            <div class="text-lg">📲</div>
+            <div>
+                <div class="text-xs font-semibold text-white">Install ALFRED COMMAND</div>
+                <div class="text-[10px] text-text-dim">Add to home screen for quick access</div>
+            </div>
+            <button id="pwa-install-btn" onclick="installPWA()" class="px-3 py-1.5 bg-tech text-black text-xs font-bold rounded-lg hover:bg-tech/80 transition-colors">
+                Install
+            </button>
+            <button onclick="dismissPWA()" class="text-white/50 hover:text-white transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+    
+    <div id="app" class="relative h-full flex flex-col p-2 gap-2">
+        <!-- TOP BAR -->
+        <header class="flex-shrink-0 bg-black/40 border border-white/5 rounded-lg px-3 py-1.5">
+            <div class="flex items-center justify-between">
+                <!-- Left: BTC + Live -->
+                <div class="flex items-center gap-3">
+                    <div id="btc-ticker" class="flex items-center gap-2 px-3 py-1.5 bg-btc/10 border border-btc/20 rounded-lg">
+                        <span class="text-btc">₿</span>
+                        <span id="btc-price" class="text-sm font-bold text-btc">--,---</span>
+                        <span id="btc-change" class="text-[10px] px-1.5 py-0.5 rounded font-semibold">--</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 px-2.5 py-1 bg-green-500/10 border border-green-500/25 rounded-lg">
+                        <div class="w-1.5 h-1.5 rounded-full bg-green-400 shadow-[0_0_8px_#22c55e] pulse"></div>
+                        <span class="text-[9px] font-semibold text-green-400 tracking-wider">LIVE</span>
+                    </div>
+                    <div id="ws-status" class="hidden items-center gap-1.5 px-2.5 py-1 bg-red-500/10 border border-red-500/25 rounded-lg">
+                        <div class="w-1.5 h-1.5 rounded-full bg-red-400"></div>
+                        <span class="text-[9px] font-semibold text-red-400 tracking-wider">OFFLINE</span>
+                    </div>
+                    <!-- Error Alert Indicator -->
+                    <div id="error-alert-indicator" class="hidden items-center gap-1.5 px-2.5 py-1 bg-red-500/20 border border-red-500/40 rounded-lg cursor-pointer hover:bg-red-500/30 transition-colors" onclick="showErrorDetails()">
+                        <div class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></div>
+                        <span id="error-count" class="text-[9px] font-bold text-red-400">0</span>
+                        <span class="text-[9px] text-red-400/80">ERRORS</span>
+                    </div>
+                </div>
+                
+                <!-- Center: Stats -->
+                <div class="flex items-center gap-4">
+                    <div class="text-center">
+                        <div id="stat-working" class="text-base font-bold text-tech">0</div>
+                        <div class="text-[7px] text-text-muted tracking-wider">WORKING</div>
+                    </div>
+                    <div class="text-center">
+                        <div id="stat-total" class="text-base font-bold">0</div>
+                        <div class="text-[7px] text-text-muted tracking-wider">TEAM</div>
+                    </div>
+                    <div class="text-center">
+                        <div id="stat-age" class="text-sm font-bold text-tech">--</div>
+                        <div id="stat-age-label" class="text-[7px] text-text-muted tracking-wider">ONLINE</div>
+                    </div>
+                    <div class="text-center cursor-help" onclick="showSavingsBreakdown()" title="Click for detailed breakdown">
+                        <div id="stat-savings" class="text-sm font-bold text-green-400">$--</div>
+                        <div class="text-[7px] text-text-muted tracking-wider">VALUE</div>
+                    </div>
+                </div>
+                
+                <!-- Right: Legend + Theme Toggle + Settings -->
+                <div class="flex items-center gap-3">
+                    <div id="dept-legend" class="flex items-center gap-3 text-[9px] text-text-dim">
+                        <!-- Populated by JS -->
+                    </div>
+                    <!-- Theme Toggle Button -->
+                    <button id="theme-toggle-btn" onclick="toggleTheme()" class="theme-toggle-btn" title="Toggle theme">
+                        <!-- Sun icon for dark mode (switch to light) -->
+                        <svg id="theme-icon-sun" class="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="5" stroke-width="2"/>
+                            <path stroke-linecap="round" stroke-width="2" d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                        </svg>
+                        <!-- Moon icon for light mode (switch to dark) -->
+                        <svg id="theme-icon-moon" class="w-[18px] h-[18px] hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+                        </svg>
+                    </button>
+                    <button id="settings-btn" onclick="openSettings()" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all relative" title="Settings">
+                        <svg class="w-4 h-4 text-text-dim hover:text-tech transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                        <!-- Error Badge on Settings -->
+                        <div id="settings-error-badge" class="error-badge hidden">!</div>
+                    </button>
+                </div>
+            </div>
+        </header>
+        
+        <!-- MAIN CONTENT: Org Chart + Task Board -->
+        <main class="flex-1 flex gap-2 min-h-0">
+            <!-- ORG CHART (2/3 width) -->
+            <section class="flex-[2] bg-black/30 border border-white/5 rounded-lg p-2 overflow-auto scrollbar-thin">
+                <div id="org-chart" class="flex flex-col items-center gap-2">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+            
+            <!-- TASK BOARD (1/3 width) -->
+            <aside class="flex-1 flex flex-col gap-2 min-w-[200px] max-w-[280px]">
+                <!-- Active Tasks -->
+                <div class="flex-1 bg-black/40 border border-white/5 rounded-lg p-2 min-h-0">
+                    <div class="flex items-center gap-1.5 mb-2">
+                        <div class="w-1.5 h-1.5 rounded-full bg-tech pulse"></div>
+                        <h2 class="text-[8px] font-semibold text-text-muted tracking-wider">TASKS</h2>
+                        <span id="task-count" class="text-[8px] text-tech font-bold ml-auto">0</span>
+                    </div>
+                    <div id="task-list" class="flex flex-col gap-1.5 overflow-auto scrollbar-thin max-h-[calc(100%-24px)]">
+                        <div class="text-center py-3 text-text-muted text-[10px]">No active tasks</div>
+                    </div>
+                </div>
+                
+                <!-- Activity Feed -->
+                <div class="flex-1 bg-black/40 border border-white/5 rounded-lg p-2 min-h-0">
+                    <div class="flex items-center gap-1.5 mb-2">
+                        <div class="w-1.5 h-1.5 rounded-full bg-green-400 pulse"></div>
+                        <h2 class="text-[8px] font-semibold text-text-muted tracking-wider">ACTIVITY</h2>
+                    </div>
+                    <div id="activity-feed" class="flex flex-col gap-1 overflow-auto scrollbar-thin max-h-[calc(100%-24px)]">
+                        <div class="text-center py-3 text-text-muted text-[10px]">Loading...</div>
+                    </div>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <script>
+        // ============ THEME MANAGEMENT ============
+        const ThemeManager = {
+            STORAGE_KEY: 'alfred-theme',
+            themes: { DARK: 'dark', LIGHT: 'light' },
+            
+            init() {
+                const savedTheme = this.getSavedTheme();
+                const theme = savedTheme || this.getSystemPreference();
+                this.applyTheme(theme);
+                this.updateIcons(theme);
+                this.updateMetaThemeColor(theme);
+            },
+            
+            getSavedTheme() {
+                try {
+                    return localStorage.getItem(this.STORAGE_KEY);
+                } catch (e) {
+                    return null;
+                }
+            },
+            
+            getSystemPreference() {
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    return this.themes.DARK;
+                }
+                return this.themes.LIGHT;
+            },
+            
+            applyTheme(theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+            },
+            
+            saveTheme(theme) {
+                try {
+                    localStorage.setItem(this.STORAGE_KEY, theme);
+                } catch (e) {
+                    console.error('[Theme] Save error:', e);
+                }
+            },
+            
+            toggle() {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === this.themes.LIGHT ? this.themes.DARK : this.themes.LIGHT;
+                this.applyTheme(newTheme);
+                this.saveTheme(newTheme);
+                this.updateIcons(newTheme);
+                this.updateMetaThemeColor(newTheme);
+                return newTheme;
+            },
+            
+            updateIcons(theme) {
+                const sunIcon = document.getElementById('theme-icon-sun');
+                const moonIcon = document.getElementById('theme-icon-moon');
+                if (theme === this.themes.LIGHT) {
+                    sunIcon.classList.add('hidden');
+                    moonIcon.classList.remove('hidden');
+                } else {
+                    sunIcon.classList.remove('hidden');
+                    moonIcon.classList.add('hidden');
+                }
+            },
+            
+            updateMetaThemeColor(theme) {
+                const metaThemeColor = document.getElementById('theme-color');
+                if (metaThemeColor) {
+                    metaThemeColor.setAttribute('content', theme === this.themes.LIGHT ? '#f8fafc' : '#05050a');
+                }
+            }
+        };
+
+        function toggleTheme() {
+            const newTheme = ThemeManager.toggle();
+            showToast(
+                'Theme Changed',
+                `Switched to ${newTheme} mode`,
+                'info',
+                2000
+            );
+        }
+
+        // ============ STATE ============
+        let config = { agents: {}, departments: {}, meta: {} };
+        let status = { agents: {} };
+        let activity = [];
+        let ws = null;
+        let wsReconnectTimer = null;
+        let deferredPrompt = null;
+        
+        // Agent state tracking for change detection
+        let previousAgentStates = {};
+        let errorHistory = [];
+        let criticalAlertActive = false;
+        
+        // ============ SETTINGS ============
+        const defaultSettings = {
+            sound: true,
+            desktop: false,
+            autorefresh: true,
+            showoffline: true,
+            notifyErrors: true,
+            notifyStart: false,
+            notifyComplete: false,
+            notifyOnline: false,
+            quietHours: false,
+            quietHoursStart: '22:00',
+            quietHoursEnd: '08:00'
+        };
+        
+        let settings = { ...defaultSettings };
+        
+        function loadSettings() {
+            try {
+                const saved = localStorage.getItem('alfred-settings');
+                if (saved) {
+                    settings = { ...defaultSettings, ...JSON.parse(saved) };
+                }
+            } catch (e) {
+                console.error('[Settings] Load error:', e);
+            }
+            updateToggleUI();
+            updateQuietHoursUI();
+        }
+        
+        function saveSettings() {
+            try {
+                localStorage.setItem('alfred-settings', JSON.stringify(settings));
+            } catch (e) {
+                console.error('[Settings] Save error:', e);
+            }
+        }
+        
+        function toggleSetting(key) {
+            settings[key] = !settings[key];
+            saveSettings();
+            updateToggleUI();
+            
+            // Request notification permission if enabling desktop notifications
+            if (key === 'desktop' && settings.desktop) {
+                requestNotificationPermission();
+            }
+            
+            // Update quiet hours UI
+            if (key === 'quietHours') {
+                updateQuietHoursUI();
+            }
+            
+            // Re-render org chart if show offline changed
+            if (key === 'showoffline') {
+                renderOrgChart();
+            }
+        }
+        
+        function updateQuietHours() {
+            const startInput = document.getElementById('quiet-start');
+            const endInput = document.getElementById('quiet-end');
+            settings.quietHoursStart = startInput.value;
+            settings.quietHoursEnd = endInput.value;
+            saveSettings();
+        }
+        
+        function updateQuietHoursUI() {
+            const configDiv = document.getElementById('quiet-hours-config');
+            const startInput = document.getElementById('quiet-start');
+            const endInput = document.getElementById('quiet-end');
+            
+            if (settings.quietHours) {
+                configDiv.classList.remove('opacity-50', 'pointer-events-none');
+            } else {
+                configDiv.classList.add('opacity-50', 'pointer-events-none');
+            }
+            
+            startInput.value = settings.quietHoursStart;
+            endInput.value = settings.quietHoursEnd;
+        }
+        
+        function updateToggleUI() {
+            Object.keys(settings).forEach(key => {
+                const toggle = document.getElementById(`toggle-${key}`);
+                if (toggle) {
+                    toggle.classList.toggle('active', settings[key]);
+                }
+            });
+        }
+        
+        function openSettings() {
+            document.getElementById('settings-backdrop').classList.add('open');
+            document.getElementById('settings-modal').classList.add('open');
+        }
+        
+        function closeSettings() {
+            document.getElementById('settings-backdrop').classList.remove('open');
+            document.getElementById('settings-modal').classList.remove('open');
+        }
+
+        // ============ NOTIFICATION SYSTEM ============
+        
+        // Request notification permission on first load
+        function requestNotificationPermission() {
+            if (!('Notification' in window)) {
+                console.log('[Notifications] Not supported');
+                return;
+            }
+            
+            if (Notification.permission === 'default') {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        showToast('Notifications Enabled', 'You will now receive desktop notifications', 'success');
+                    }
+                });
+            }
+        }
+        
+        // Check if currently in quiet hours
+        function isQuietHours() {
+            if (!settings.quietHours) return false;
+            
+            const now = new Date();
+            const currentTime = now.getHours() * 60 + now.getMinutes();
+            
+            const [startH, startM] = settings.quietHoursStart.split(':').map(Number);
+            const [endH, endM] = settings.quietHoursEnd.split(':').map(Number);
+            
+            const startTime = startH * 60 + startM;
+            const endTime = endH * 60 + endM;
+            
+            if (startTime < endTime) {
+                // Same day range (e.g., 9:00 to 17:00)
+                return currentTime >= startTime && currentTime < endTime;
+            } else {
+                // Overnight range (e.g., 22:00 to 08:00)
+                return currentTime >= startTime || currentTime < endTime;
+            }
+        }
+        
+        // Show toast notification
+        function showToast(title, message, type = 'info', duration = 5000) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            const icons = {
+                success: '✅',
+                error: '🚨',
+                warning: '⚠️',
+                info: 'ℹ️'
+            };
+            
+            toast.innerHTML = `
+                <div class="flex items-start gap-3">
+                    <span class="text-lg">${icons[type]}</span>
+                    <div class="flex-1 min-w-0">
+                        <div class="text-xs font-semibold text-white mb-0.5">${title}</div>
+                        <div class="text-[11px] text-text-dim leading-relaxed">${message}</div>
+                    </div>
+                    <button onclick="this.closest('.toast').remove()" class="text-white/40 hover:text-white transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+            `;
+            
+            container.appendChild(toast);
+            
+            // Animate in
+            requestAnimationFrame(() => {
+                toast.classList.add('show');
+            });
+            
+            // Auto remove
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, duration);
+        }
+        
+        // Show desktop notification
+        function showDesktopNotification(title, body, tag = null) {
+            if (!settings.desktop || Notification.permission !== 'granted') return;
+            if (isQuietHours()) return;
+            
+            const options = {
+                body: body,
+                icon: '/icon-192.png',
+                badge: '/icon-192.png',
+                tag: tag || title,
+                requireInteraction: false,
+                silent: !settings.sound
+            };
+            
+            try {
+                new Notification(title, options);
+            } catch (e) {
+                console.error('[Notification] Failed:', e);
+            }
+        }
+        
+        // Play notification sound
+        function playNotificationSound(type = 'default') {
+            if (!settings.sound || isQuietHours()) return;
+            
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                
+                // Different tones for different types
+                switch (type) {
+                    case 'error':
+                        osc.frequency.value = 200;
+                        gain.gain.value = 0.15;
+                        osc.start();
+                        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+                        osc.stop(ctx.currentTime + 0.3);
+                        break;
+                    case 'success':
+                        osc.frequency.value = 600;
+                        gain.gain.value = 0.1;
+                        osc.start();
+                        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
+                        osc.stop(ctx.currentTime + 0.15);
+                        break;
+                    case 'alert':
+                        // Double beep
+                        osc.frequency.value = 400;
+                        gain.gain.value = 0.1;
+                        osc.start();
+                        osc.stop(ctx.currentTime + 0.1);
+                        setTimeout(() => {
+                            const osc2 = ctx.createOscillator();
+                            const gain2 = ctx.createGain();
+                            osc2.connect(gain2);
+                            gain2.connect(ctx.destination);
+                            osc2.frequency.value = 400;
+                            gain2.gain.value = 0.1;
+                            osc2.start();
+                            gain2.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+                            osc2.stop(ctx.currentTime + 0.1);
+                        }, 150);
+                        break;
+                    default:
+                        osc.frequency.value = 800;
+                        gain.gain.value = 0.1;
+                        osc.start();
+                        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+                        osc.stop(ctx.currentTime + 0.1);
+                }
+            } catch (e) {}
+        }
+        
+        // ============ ALERT DETECTION ============
+        
+        function detectAgentStateChanges(agentId, newState) {
+            const prevState = previousAgentStates[agentId];
+            const agent = config.agents[agentId];
+            
+            if (!agent || !prevState) {
+                previousAgentStates[agentId] = { ...newState };
+                return;
+            }
+            
+            // Check for working -> error transition
+            if (prevState.status === 'working' && newState.hasError) {
+                handleAgentError(agentId, newState);
+            }
+            
+            // Check for idle -> working (task started)
+            if (prevState.status !== 'working' && newState.status === 'working' && newState.task) {
+                handleTaskStarted(agentId, newState);
+            }
+            
+            // Check for working -> complete (task completed)
+            if (prevState.status === 'working' && (newState.status === 'complete' || (!newState.task && prevState.task))) {
+                handleTaskCompleted(agentId, newState, prevState.task);
+            }
+            
+            // Check for offline -> online (high priority)
+            if ((prevState.status === 'offline' || !prevState.status) && 
+                (newState.status === 'online' || newState.status === 'working') &&
+                (agent.tier === 'leader' || agent.tier === 'chief' || agent.isCEO)) {
+                handleHighPriorityOnline(agentId, newState);
+            }
+            
+            previousAgentStates[agentId] = { ...newState };
+        }
+        
+        function handleAgentError(agentId, state) {
+            const agent = config.agents[agentId];
+            const errorMsg = state.lastError || 'Unknown error';
+            
+            // Add to error history
+            errorHistory.push({
+                agentId,
+                agentName: agent.name,
+                error: errorMsg,
+                timestamp: Date.now()
+            });
+            
+            // Keep only last 10 errors
+            if (errorHistory.length > 10) errorHistory.shift();
+            
+            // Update error indicators
+            updateErrorIndicators();
+            
+            // Show notifications if enabled
+            if (settings.notifyErrors && !isQuietHours()) {
+                showToast(
+                    'Agent Error',
+                    `${agent.emoji} ${agent.name}: ${errorMsg.substring(0, 60)}`,
+                    'error',
+                    8000
+                );
+                playNotificationSound('error');
+                showDesktopNotification(
+                    `🚨 ${agent.name} Error`,
+                    errorMsg.substring(0, 100),
+                    `error-${agentId}`
+                );
+            }
+            
+            // Check for multiple simultaneous failures
+            checkForSystemWideIssues();
+        }
+        
+        function handleTaskStarted(agentId, state) {
+            if (!settings.notifyStart) return;
+            if (isQuietHours()) return;
+            
+            const agent = config.agents[agentId];
+            const task = state.task || 'New task';
+            
+            showToast(
+                'Task Started',
+                `${agent.emoji} ${agent.name} started: ${task.substring(0, 50)}`,
+                'info',
+                4000
+            );
+            playNotificationSound('default');
+            
+            if (settings.desktop) {
+                showDesktopNotification(
+                    `⚡ ${agent.name}`,
+                    `Started: ${task.substring(0, 80)}`,
+                    `task-${agentId}`
+                );
+            }
+        }
+        
+        function handleTaskCompleted(agentId, state, prevTask) {
+            if (!settings.notifyComplete) return;
+            if (isQuietHours()) return;
+            
+            const agent = config.agents[agentId];
+            
+            showToast(
+                'Task Completed',
+                `${agent.emoji} ${agent.name} completed: ${(prevTask || 'Task').substring(0, 50)}`,
+                'success',
+                4000
+            );
+            playNotificationSound('success');
+            
+            if (settings.desktop) {
+                showDesktopNotification(
+                    `✅ ${agent.name}`,
+                    `Completed: ${(prevTask || 'Task').substring(0, 80)}`,
+                    `complete-${agentId}`
+                );
+            }
+        }
+        
+        function handleHighPriorityOnline(agentId, state) {
+            if (!settings.notifyOnline) return;
+            if (isQuietHours()) return;
+            
+            const agent = config.agents[agentId];
+            
+            showToast(
+                'Agent Online',
+                `${agent.emoji} ${agent.name} (${agent.role}) is now online`,
+                'success',
+                4000
+            );
+            playNotificationSound('success');
+            
+            if (settings.desktop) {
+                showDesktopNotification(
+                    `🟢 ${agent.name} Online`,
+                    `${agent.role} is now available`,
+                    `online-${agentId}`
+                );
+            }
+        }
+        
+        function checkForSystemWideIssues() {
+            // Check for multiple errors in last 5 minutes
+            const fiveMinutesAgo = Date.now() - 5 * 60 * 1000;
+            const recentErrors = errorHistory.filter(e => e.timestamp > fiveMinutesAgo);
+            
+            if (recentErrors.length >= 3 && !criticalAlertActive) {
+                criticalAlertActive = true;
+                
+                // Show critical alert
+                showToast(
+                    'CRITICAL: Multiple Agent Failures',
+                    `${recentErrors.length} agents have failed in the last 5 minutes. Check system status.`,
+                    'error',
+                    15000
+                );
+                playNotificationSound('alert');
+                
+                // Flash the header
+                document.querySelector('header').classList.add('critical-alert');
+                
+                // Show desktop notification
+                showDesktopNotification(
+                    '🚨 CRITICAL: Multiple Failures',
+                    `${recentErrors.length} agents failed recently`,
+                    'critical-system'
+                );
+                
+                // Remove critical alert after 30 seconds
+                setTimeout(() => {
+                    criticalAlertActive = false;
+                    document.querySelector('header').classList.remove('critical-alert');
+                }, 30000);
+            }
+        }
+        
+        function updateErrorIndicators() {
+            const errorCount = Object.entries(status.agents || {}).filter(([_, s]) => s.hasError).length;
+            
+            const indicator = document.getElementById('error-alert-indicator');
+            const badge = document.getElementById('settings-error-badge');
+            const countEl = document.getElementById('error-count');
+            
+            if (errorCount > 0) {
+                indicator.classList.remove('hidden');
+                indicator.classList.add('flex');
+                badge.classList.remove('hidden');
+                countEl.textContent = errorCount;
+            } else {
+                indicator.classList.add('hidden');
+                indicator.classList.remove('flex');
+                badge.classList.add('hidden');
+            }
+        }
+        
+        function showErrorDetails() {
+            const errors = Object.entries(status.agents || {})
+                .filter(([_, s]) => s.hasError)
+                .map(([id, s]) => {
+                    const agent = config.agents[id];
+                    return { agent, error: s.lastError };
+                });
+            
+            if (errors.length === 0) {
+                showToast('No Errors', 'All agents are functioning normally', 'success');
+                return;
+            }
+            
+            const errorList = errors.map(e => 
+                `<div class="py-2 border-b border-white/5">
+                    <div class="text-xs font-semibold text-white">${e.agent?.emoji} ${e.agent?.name}</div>
+                    <div class="text-[10px] text-red-400">${e.error || 'Unknown error'}</div>
+                </div>`
+            ).join('');
+            
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4';
+            modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+            
+            modal.innerHTML = `
+                <div class="bg-surface border border-border rounded-xl p-4 max-w-md w-full max-h-[70vh] overflow-auto">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-sm font-bold text-white flex items-center gap-2">
+                            <span class="text-red-500">🚨</span> Agent Errors (${errors.length})
+                        </h2>
+                        <button onclick="this.closest('.fixed').remove()" class="text-text-dim hover:text-white">✕</button>
+                    </div>
+                    <div class="space-y-1">${errorList}</div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        // ============ PWA INSTALL ============
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Check if user hasn't dismissed the banner recently
+            const dismissed = localStorage.getItem('pwa-dismissed');
+            if (!dismissed || Date.now() - parseInt(dismissed) > 7 * 24 * 60 * 60 * 1000) {
+                setTimeout(() => {
+                    document.getElementById('pwa-banner').classList.add('visible');
+                }, 3000);
+            }
+        });
+        
+        async function installPWA() {
+            if (!deferredPrompt) return;
+            
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            
+            if (outcome === 'accepted') {
+                console.log('[PWA] Installed');
+            }
+            
+            deferredPrompt = null;
+            document.getElementById('pwa-banner').classList.remove('visible');
+        }
+        
+        function dismissPWA() {
+            document.getElementById('pwa-banner').classList.remove('visible');
+            localStorage.setItem('pwa-dismissed', Date.now().toString());
+        }
+
+        // ============ WEBSOCKET ============
+        function connectWS() {
+            const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            ws = new WebSocket(`${protocol}//${location.host}`);
+            
+            ws.onopen = () => {
+                console.log('[WS] Connected');
+                document.getElementById('ws-status').classList.add('hidden');
+                if (wsReconnectTimer) {
+                    clearTimeout(wsReconnectTimer);
+                    wsReconnectTimer = null;
+                }
+                
+                // Clear any connection error toasts
+                showToast('Connected', 'Real-time updates active', 'success', 3000);
+            };
+            
+            ws.onmessage = (e) => {
+                const msg = JSON.parse(e.data);
+                handleMessage(msg);
+            };
+            
+            ws.onclose = () => {
+                console.log('[WS] Disconnected');
+                document.getElementById('ws-status').classList.remove('hidden');
+                
+                if (!isQuietHours()) {
+                    showToast('Connection Lost', 'Attempting to reconnect...', 'warning', 5000);
+                }
+                
+                if (settings.autorefresh) {
+                    scheduleReconnect();
+                }
+            };
+            
+            ws.onerror = () => {
+                document.getElementById('ws-status').classList.remove('hidden');
+            };
+        }
+        
+        function scheduleReconnect() {
+            if (!wsReconnectTimer && settings.autorefresh) {
+                wsReconnectTimer = setTimeout(() => {
+                    wsReconnectTimer = null;
+                    connectWS();
+                }, 3000);
+            }
+        }
+        
+        function handleMessage(msg) {
+            switch (msg.type) {
+                case 'init':
+                    config = msg.config;
+                    status = msg.status;
+                    activity = msg.activity || [];
+                    // Initialize previous states
+                    Object.entries(status.agents || {}).forEach(([id, s]) => {
+                        previousAgentStates[id] = { ...s };
+                    });
+                    renderAll();
+                    updateErrorIndicators();
+                    
+                    // Request notification permission on first load if not denied
+                    if (settings.desktop && Notification.permission === 'default') {
+                        setTimeout(requestNotificationPermission, 2000);
+                    }
+                    break;
+                case 'config':
+                    config = msg.data;
+                    renderAll();
+                    break;
+                case 'status':
+                    const prevStatus = status.agents[msg.agentId];
+                    status.agents[msg.agentId] = msg.data;
+                    
+                    // Detect state changes and trigger alerts
+                    detectAgentStateChanges(msg.agentId, msg.data);
+                    
+                    renderAgentCard(msg.agentId);
+                    renderTaskBoard();
+                    updateStats();
+                    updateErrorIndicators();
+                    break;
+                case 'status-bulk':
+                    status = msg.data;
+                    // Update previous states for bulk updates
+                    Object.entries(status.agents || {}).forEach(([id, s]) => {
+                        if (!previousAgentStates[id]) {
+                            previousAgentStates[id] = { ...s };
+                        }
+                    });
+                    renderOrgChart();
+                    renderTaskBoard();
+                    updateStats();
+                    updateErrorIndicators();
+                    break;
+                case 'activity':
+                    activity.unshift(msg.data);
+                    if (activity.length > 20) activity = activity.slice(0, 20);
+                    renderActivity();
+                    break;
+                case 'btc':
+                    if (msg.data) {
+                        document.getElementById('btc-price').textContent = '$' + Math.round(msg.data.usd).toLocaleString();
+                        const change = msg.data.change.toFixed(1);
+                        const el = document.getElementById('btc-change');
+                        el.textContent = (change >= 0 ? '+' : '') + change + '%';
+                        el.className = `text-[10px] px-1.5 py-0.5 rounded font-semibold ${change >= 0 ? 'text-green-400 bg-green-500/10' : 'text-red-400 bg-red-500/10'}`;
+                    }
+                    break;
+                case 'system-alert':
+                    // Handle system-wide alerts from server
+                    handleSystemAlert(msg.data);
+                    break;
+            }
+        }
+        
+        function handleSystemAlert(data) {
+            const { severity, title, message } = data;
+            
+            if (severity === 'critical') {
+                showToast(title, message, 'error', 10000);
+                playNotificationSound('alert');
+                showDesktopNotification(`🚨 ${title}`, message, 'system-alert');
+                
+                // Flash header
+                document.querySelector('header').classList.add('critical-alert');
+                setTimeout(() => {
+                    document.querySelector('header').classList.remove('critical-alert');
+                }, 30000);
+            } else if (severity === 'warning') {
+                showToast(title, message, 'warning', 7000);
+                playNotificationSound('default');
+            } else {
+                showToast(title, message, 'info', 5000);
+            }
+        }
+
+        // ============ RENDER FUNCTIONS ============
+        function renderAll() {
+            renderLegend();
+            renderOrgChart();
+            renderTaskBoard();
+            renderActivity();
+            updateStats();
+        }
+        
+        function renderLegend() {
+            const legend = document.getElementById('dept-legend');
+            const depts = Object.entries(config.departments || {})
+                .sort((a, b) => (a[1].order || 0) - (b[1].order || 0))
+                .filter(([k]) => k !== 'executive');
+            
+            legend.innerHTML = depts.map(([key, dept]) => `
+                <div class="flex items-center gap-1.5">
+                    <div class="w-2 h-2 rounded" style="background: ${dept.color}"></div>
+                    <span>${dept.name}</span>
+                </div>
+            `).join('');
+        }
+        
+        function renderOrgChart() {
+            const container = document.getElementById('org-chart');
+            const agents = config.agents || {};
+            const departments = config.departments || {};
+            
+            // Find leadership (no reportsTo or reportsTo = alfred)
+            const leader = Object.entries(agents).find(([_, a]) => a.isCEO)?.[0];
+            const chief = Object.entries(agents).find(([_, a]) => a.tier === 'chief')?.[0];
+            
+            // Group agents by department
+            const byDept = {};
+            Object.entries(agents).forEach(([id, agent]) => {
+                if (agent.tier === 'leader' || agent.tier === 'chief') return;
+                
+                // Filter out offline agents if setting is off
+                if (!settings.showoffline) {
+                    const agentStatus = status.agents[id] || {};
+                    if (agentStatus.status !== 'working' && !agent.isCEO) return;
+                }
+                
+                const dept = agent.department;
+                if (!byDept[dept]) byDept[dept] = { heads: [], members: [] };
+                if (agent.tier === 'head') byDept[dept].heads.push(id);
+                else byDept[dept].members.push(id);
+            });
+            
+            // Sort departments by order
+            const sortedDepts = Object.entries(byDept)
+                .sort((a, b) => {
+                    const orderA = departments[a[0]]?.order ?? 99;
+                    const orderB = departments[b[0]]?.order ?? 99;
+                    return orderA - orderB;
+                });
+            
+            container.innerHTML = `
+                <!-- Leadership - Sunny on top -->
+                <div class="flex flex-col items-center gap-2">
+                    ${leader ? renderAgentCardHTML(leader, 'leader') : ''}
+                    <div class="w-px h-4 bg-white/20"></div>
+                    ${chief ? renderAgentCardHTML(chief, 'chief') : ''}
+                </div>
+                
+                <!-- Connector to departments -->
+                <div class="w-px h-4 bg-white/20"></div>
+                <div class="w-3/4 h-px bg-white/20"></div>
+                
+                <!-- Departments Grid -->
+                <div class="flex flex-wrap justify-center gap-3 w-full mt-2">
+                    ${sortedDepts.map(([deptKey, deptData]) => {
+                        const dept = departments[deptKey] || {};
+                        return `
+                            <div class="dept-box p-3 pt-4 rounded-xl relative" 
+                                 style="background: ${dept.colorBg || 'var(--color-surface)'}; border: 1px solid ${dept.color}20">
+                                <div class="absolute -top-2.5 left-1/2 -translate-x-1/2 px-2 py-0.5 text-[8px] font-bold tracking-wider rounded bg-bg border"
+                                     style="color: ${dept.color}; border-color: ${dept.color}50">
+                                    ${dept.name?.toUpperCase() || deptKey.toUpperCase()}
+                                </div>
+                                <div class="flex flex-col items-center gap-2">
+                                    ${deptData.heads.map(id => renderAgentCardHTML(id, 'head')).join('')}
+                                    ${deptData.members.length ? `
+                                        <div class="flex flex-wrap justify-center gap-2 mt-1">
+                                            ${deptData.members.map(id => renderAgentCardHTML(id, 'member')).join('')}
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+        
+        function renderAgentCardHTML(agentId, tier = 'member') {
+            const agent = config.agents[agentId];
+            const agentStatus = status.agents[agentId] || {};
+            if (!agent) return '';
+            
+            const dept = config.departments[agent.department] || {};
+            const isWorking = agentStatus.status === 'working' && agentStatus.task;
+            const isOnline = agentStatus.status === 'online' || (agentStatus.status === 'working' && !agentStatus.task);
+            const isIdle = !isWorking && !isOnline && agentStatus.status !== 'complete';
+            const hasError = agentStatus.hasError || agentStatus.lastError;
+            
+            // Calculate uptime
+            const uptimeDisplay = getUptimeDisplay(agentStatus);
+            
+            // Card sizes - original larger style
+            const sizeClasses = {
+                leader: 'min-w-[90px] px-4 py-3',
+                chief: 'min-w-[80px] px-3 py-2',
+                head: 'min-w-[70px] px-3 py-2',
+                member: 'min-w-[60px] px-2 py-1.5'
+            };
+            
+            const emojiSize = {
+                leader: 'text-3xl',
+                chief: 'text-2xl',
+                head: 'text-xl',
+                member: 'text-lg'
+            };
+            
+            const nameSize = {
+                leader: 'text-sm',
+                chief: 'text-xs',
+                head: 'text-[10px]',
+                member: 'text-[9px]'
+            };
+            
+            const workingIndicator = isWorking ? `
+                <div class="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-bg animate-pulse" title="Working: ${agentStatus.task || ''}"></div>
+            ` : isOnline ? `
+                <div class="absolute -top-1 -right-1 w-2 h-2 bg-blue-400 rounded-full border-2 border-bg" title="Online"></div>
+            ` : '';
+            
+            const taskLabel = isWorking && agentStatus.task ? `
+                <div class="text-[6px] text-white/60 mt-0.5 max-w-full truncate px-1" title="${agentStatus.task}">${agentStatus.task.substring(0, 20)}${agentStatus.task.length > 20 ? '...' : ''}</div>
+            ` : '';
+            
+            return `
+                <div class="agent-card ${sizeClasses[tier]} flex flex-col items-center rounded-lg bg-card border transition-all duration-300 relative
+                            ${isWorking ? 'working border-opacity-100' : 'border-white/10'}
+                            ${isIdle && !agent.isCEO ? 'opacity-60' : ''}
+                            ${hasError ? 'border-red-500/50' : ''}"
+                     id="card-${agentId}"
+                     onclick="onAgentClick('${agentId}')"
+                     style="--glow-color: ${dept.color}50; ${isWorking ? `border-color: ${dept.color}` : ''}">
+                    ${hasError ? '<div class="error-indicator"></div>' : ''}
+                    ${workingIndicator}
+                    <div class="${emojiSize[tier]}">${agent.emoji}</div>
+                    <div class="${nameSize[tier]} font-semibold mt-1" style="${isWorking ? `color: ${dept.color}; text-shadow: 0 0 10px ${dept.color}40` : ''}">${agent.name}</div>
+                    <div class="text-[8px] text-text-muted uppercase tracking-wider">${agent.role}</div>
+                    ${taskLabel}
+                    ${uptimeDisplay ? `<div class="text-[7px] text-text-dim mt-0.5">${uptimeDisplay}</div>` : ''}
+                    <div class="w-2 h-2 rounded-full mt-1.5 ${isWorking ? 'animate-pulse' : ''}"
+                         style="background: ${hasError ? '#ef4444' : (isWorking ? dept.color : 'rgba(255,255,255,0.15)')}; ${isWorking ? `box-shadow: 0 0 10px ${dept.color}, 0 0 20px ${dept.color}` : (hasError ? 'box-shadow: 0 0 6px #ef4444' : '')}">
+                    </div>
+                </div>
+            `;
+        }
+        
+        function getUptimeDisplay(agentStatus) {
+            if (!agentStatus.uptimeToday && !agentStatus.sessionStart) return '';
+            
+            let seconds = agentStatus.uptimeToday || 0;
+            
+            // If currently working, add time since session start
+            if (agentStatus.status === 'working' && agentStatus.sessionStart) {
+                const sessionSeconds = Math.floor((Date.now() - new Date(agentStatus.sessionStart).getTime()) / 1000);
+                seconds += sessionSeconds;
+            }
+            
+            if (seconds < 60) return '';
+            
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            
+            if (hours > 0) {
+                return `Active: ${hours}h ${minutes}m`;
+            }
+            return `Active: ${minutes}m`;
+        }
+        
+        function onAgentClick(agentId) {
+            const agent = config.agents[agentId];
+            const agentStatus = status.agents[agentId] || {};
+            if (!agent) return;
+            
+            // Show agent details in toast
+            const statusText = agentStatus.status === 'working' ? `Working: ${agentStatus.task || 'On task'}` :
+                              agentStatus.status === 'online' ? 'Online' :
+                              agentStatus.hasError ? `Error: ${agentStatus.lastError || 'Unknown'}` : 'Idle';
+            
+            const type = agentStatus.hasError ? 'error' : agentStatus.status === 'working' ? 'info' : 'success';
+            
+            showToast(
+                `${agent.emoji} ${agent.name}`,
+                `<strong>${agent.role}</strong><br>${statusText}`,
+                type,
+                5000
+            );
+        }
+        
+        function renderAgentCard(agentId) {
+            const card = document.getElementById(`card-${agentId}`);
+            if (card) {
+                const agent = config.agents[agentId];
+                const tier = agent.tier || (agent.isCEO ? 'leader' : 'member');
+                const newCard = document.createElement('div');
+                newCard.innerHTML = renderAgentCardHTML(agentId, tier);
+                card.replaceWith(newCard.firstElementChild);
+            }
+        }
+        
+        function renderTaskBoard() {
+            const taskList = document.getElementById('task-list');
+            const workingAgents = Object.entries(status.agents || {})
+                .filter(([_, s]) => s.status === 'working' && s.task)
+                .map(([id, s]) => ({ id, ...config.agents[id], ...s }))
+                .sort((a, b) => new Date(b.lastActive) - new Date(a.lastActive));
+            
+            document.getElementById('task-count').textContent = workingAgents.length;
+            
+            if (!workingAgents.length) {
+                taskList.innerHTML = '<div class="text-center py-6 text-text-muted text-xs">All agents idle</div>';
+                return;
+            }
+            
+            taskList.innerHTML = workingAgents.map(agent => {
+                const dept = config.departments[agent.department] || {};
+                return `
+                    <div class="flex items-center gap-1.5 p-1.5 rounded-md bg-white/[0.02] border border-white/5 fade-in">
+                        <div class="text-base">${agent.emoji}</div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-1.5">
+                                <span class="text-[10px] font-semibold" style="color: ${dept.color}">${agent.name}</span>
+                                <span class="text-[8px] text-text-muted">${agent.role}</span>
+                            </div>
+                            <div class="text-[9px] text-white/80 truncate">${agent.task}</div>
+                            ${agent.progress ? `
+                                <div class="mt-1 h-0.5 bg-white/10 rounded-full overflow-hidden">
+                                    <div class="h-full rounded-full transition-all" style="width: ${agent.progress}%; background: ${dept.color}"></div>
+                                </div>
+                            ` : ''}
+                        </div>
+                        <div class="w-1.5 h-1.5 rounded-full pulse" style="background: ${dept.color}; box-shadow: 0 0 6px ${dept.color}"></div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function renderActivity() {
+            const feed = document.getElementById('activity-feed');
+            const typeIcons = { message: '💬', task: '⚡', commit: '📝', cron: '⏰', alert: '🚨', status: '🔄', system: '🖥️' };
+            
+            if (!activity.length) {
+                feed.innerHTML = '<div class="text-center py-3 text-text-muted text-[9px]">No activity yet</div>';
+                return;
+            }
+            
+            feed.innerHTML = activity.slice(0, 15).map(event => {
+                const agent = config.agents[event.agent];
+                const dept = agent ? config.departments[agent.department] : {};
+                return `
+                    <div class="flex items-start gap-1.5 p-1 rounded bg-white/[0.01] hover:bg-white/[0.03] transition-colors">
+                        <span class="text-xs">${event.icon || typeIcons[event.type] || '📌'}</span>
+                        <div class="flex-1 min-w-0">
+                            <div class="text-[9px] text-white/80 truncate">${event.text}</div>
+                            <div class="flex items-center gap-1.5">
+                                <span class="text-[8px] font-medium" style="color: ${dept?.color || '#888'}">${agent?.name || event.agent}</span>
+                                <span class="text-[8px] text-text-muted">${relativeTime(event.timestamp)}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function updateStats() {
+            const agents = Object.entries(config.agents || {}).filter(([_, a]) => !a.excludeFromCount);
+            const working = Object.entries(status.agents || {}).filter(([id, s]) => {
+                const agent = config.agents[id];
+                return s.status === 'working' && agent && !agent.excludeFromCount;
+            }).length;
+            
+            document.getElementById('stat-working').textContent = working;
+            document.getElementById('stat-working').className = `text-base font-bold ${working > 0 ? 'text-tech' : ''}`;
+            document.getElementById('stat-total').textContent = agents.filter(([id, a]) => !a.isCEO).length;
+        }
+
+        // ============ UTILITIES ============
+        function relativeTime(ts) {
+            const diff = Math.floor((Date.now() - new Date(ts).getTime()) / 1000);
+            if (diff < 60) return 'now';
+            if (diff < 3600) return Math.floor(diff / 60) + 'm';
+            if (diff < 86400) return Math.floor(diff / 3600) + 'h';
+            return Math.floor(diff / 86400) + 'd';
+        }
+        
+        // ============ BTC TICKER ============
+        async function fetchBTC() {
+            try {
+                const r = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true');
+                const d = await r.json();
+                document.getElementById('btc-price').textContent = '$' + Math.round(d.bitcoin.usd).toLocaleString();
+                const change = d.bitcoin.usd_24h_change.toFixed(1);
+                const el = document.getElementById('btc-change');
+                el.textContent = (change >= 0 ? '+' : '') + change + '%';
+                el.className = `text-[10px] px-1.5 py-0.5 rounded font-semibold ${change >= 0 ? 'text-green-400 bg-green-500/10' : 'text-red-400 bg-red-500/10'}`;
+            } catch (e) {
+                console.error('[BTC] Fetch error:', e);
+            }
+        }
+        
+        // ============ AGE COUNTER ============
+        function updateAge() {
+            const birthDate = config.meta?.birthDate ? new Date(config.meta.birthDate) : new Date('2026-01-25T23:53:22Z');
+            const now = new Date();
+            const diff = now - birthDate;
+            
+            const seconds = Math.floor(diff / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(minutes / 60);
+            const days = Math.floor(hours / 24);
+            const months = Math.floor(days / 30.44);
+            const years = Math.floor(days / 365.25);
+            
+            let display, label;
+            if (years >= 1) {
+                const remainingMonths = Math.floor((days - years * 365.25) / 30.44);
+                display = years + 'y' + (remainingMonths > 0 ? ' ' + remainingMonths + 'm' : '');
+                label = 'AGE';
+            } else if (months >= 1) {
+                const remainingDays = Math.floor(days - months * 30.44);
+                display = months + 'm' + (remainingDays > 0 ? ' ' + remainingDays + 'd' : '');
+                label = 'AGE';
+            } else if (days >= 1) {
+                display = days + 'd ' + (hours % 24) + 'h';
+                label = 'ONLINE';
+            } else if (hours >= 1) {
+                display = hours + 'h ' + (minutes % 60) + 'm';
+                label = 'ONLINE';
+            } else {
+                display = minutes + 'm';
+                label = 'ONLINE';
+            }
+            
+            document.getElementById('stat-age').textContent = display;
+            document.getElementById('stat-age-label').textContent = label;
+        }
+        
+        // ============ SAVINGS COUNTER ============
+        function updateSavings() {
+            const birthDate = config.meta?.birthDate ? new Date(config.meta.birthDate) : new Date('2026-01-31T18:00:00Z');
+            const savingsConfig = config.meta?.savingsConfig || { hourlyRate: 200, activeRatio: 0.6, manualAdditions: [] };
+            
+            const hoursOnline = (Date.now() - birthDate) / (1000 * 60 * 60);
+            const timeSavings = hoursOnline * savingsConfig.hourlyRate * savingsConfig.activeRatio;
+            const manualAdditions = savingsConfig.manualAdditions || [];
+            const manualTotal = manualAdditions.reduce((sum, item) => sum + (item.value || 0), 0);
+            const total = Math.floor(timeSavings + manualTotal);
+            const actualCost = savingsConfig.actualCost || 200;
+            const trueSavings = total - actualCost;
+            
+            // Format display based on size
+            let display;
+            if (total >= 1000000) display = '$' + (total / 1000000).toFixed(2) + 'M';
+            else if (total >= 1000) display = '$' + (total / 1000).toFixed(1) + 'K';
+            else display = '$' + total.toLocaleString();
+            
+            document.getElementById('stat-savings').textContent = display;
+            document.getElementById('stat-savings').title = 
+                `Value Delivered: ${display}\n` +
+                `Agent Time: $${Math.floor(timeSavings).toLocaleString()}\n` +
+                `Platform Value: $${manualTotal.toLocaleString()}\n` +
+                `Actual Cost: $${actualCost}\n` +
+                `Net Savings: $${trueSavings.toLocaleString()}`;
+            
+            return { total, timeSavings, manualTotal, actualCost, trueSavings, manualAdditions };
+        }
+
+        // ============ SAVINGS BREAKDOWN MODAL ============
+        function showSavingsBreakdown() {
+            const savings = updateSavings();
+            if (!savings) return;
+            
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4';
+            modal.onclick = (e) => {
+                if (e.target === modal) modal.remove();
+            };
+            
+            const items = savings.manualAdditions.map(item => 
+                `<div class="flex justify-between py-1 border-b border-white/5">
+                    <span class="text-xs text-text-dim">${item.name}</span>
+                    <span class="text-xs font-mono text-green-400">+$${item.value.toLocaleString()}</span>
+                </div>`
+            ).join('');
+            
+            modal.innerHTML = `
+                <div class="bg-surface border border-border rounded-xl p-6 max-w-md w-full max-h-[80vh] overflow-auto">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-lg font-bold text-white">Value Breakdown</h2>
+                        <button onclick="this.closest('.fixed').remove()" class="text-text-dim hover:text-white">✕</button>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-white/5 rounded-lg p-4">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-sm text-text-dim">Agent Time (${Math.floor((Date.now() - new Date(config.meta?.birthDate || '2026-01-31')) / (1000 * 60 * 60))} hrs)</span>
+                                <span class="text-sm font-mono text-tech">+$${Math.floor(savings.timeSavings).toLocaleString()}</span>
+                            </div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-sm text-text-dim">Platform Deliverables</span>
+                                <span class="text-sm font-mono text-green-400">+$${savings.manualTotal.toLocaleString()}</span>
+                            </div>
+                            <div class="border-t border-white/10 mt-2 pt-2 flex justify-between items-center">
+                                <span class="text-sm font-bold text-white">Total Value</span>
+                                <span class="text-lg font-bold font-mono text-green-400">$${savings.total.toLocaleString()}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white/5 rounded-lg p-4">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-sm text-text-dim">Actual Cost (API tokens)</span>
+                                <span class="text-sm font-mono text-orange-400">-$${savings.actualCost}</span>
+                            </div>
+                            <div class="border-t border-white/10 mt-2 pt-2 flex justify-between items-center">
+                                <span class="text-sm font-bold text-white">Net Savings</span>
+                                <span class="text-lg font-bold font-mono text-green-400">$${savings.trueSavings.toLocaleString()}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="text-[10px] text-text-muted">
+                            <p class="mb-2 font-semibold text-text-dim">Platform Components:</p>
+                            ${items}
+                        </div>
+                        
+                        <div class="text-[10px] text-text-muted text-center pt-2">
+                            Click outside or ✕ to close
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        // ============ KEYBOARD SHORTCUTS ============
+        document.addEventListener('keydown', (e) => {
+            // ESC to close settings
+            if (e.key === 'Escape') {
+                closeSettings();
+            }
+            // S to open settings (when not in input)
+            if (e.key === 's' && !e.ctrlKey && !e.metaKey && document.activeElement.tagName !== 'INPUT') {
+                e.preventDefault();
+                openSettings();
+            }
+        });
+
+        // ============ INIT ============
+        // Initialize theme first to prevent flash
+        ThemeManager.init();
+        
+        // Then load other settings
+        loadSettings();
+        connectWS();
+        fetchBTC();
+        setInterval(fetchBTC, 60000);
+        setInterval(updateAge, 60000);
+        setInterval(updateSavings, 60000);
+        
+        // Initial render with empty state (will be replaced by WS init)
+        setTimeout(() => {
+            updateAge();
+            updateSavings();
+        }, 100);
+    </script>
+</body>
+</html>

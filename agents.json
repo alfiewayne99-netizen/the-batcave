@@ -1,0 +1,630 @@
+{
+  "agents": {
+    "tajan": {
+      "name": "Tajan",
+      "emoji": "👑",
+      "role": "FOUNDER & CEO",
+      "department": "executive",
+      "tier": "leader",
+      "isCEO": true
+    },
+    "alfred": {
+      "name": "Alfred",
+      "emoji": "🌑",
+      "role": "CHIEF OF STAFF",
+      "department": "executive",
+      "tier": "chief",
+      "reportsTo": "tajan",
+      "credentials": "PhD Everything (Life), learned from the best, still learning"
+    },
+    "ravensingh": {
+      "name": "Raven Singh",
+      "emoji": "🪶",
+      "role": "AI ADVISOR",
+      "department": "executive",
+      "tier": "chief",
+      "reportsTo": "tajan",
+      "credentials": "The architect. Everything you see started with her vision."
+    },
+    "foundry": {
+      "name": "Foundry",
+      "emoji": "💻",
+      "role": "CTO",
+      "department": "technology",
+      "tier": "head",
+      "reportsTo": "alfred",
+      "credentials": "PhD CS (Stanford), MSc Physics, dropped out of art school"
+    },
+    "ignite": {
+      "name": "Ignite",
+      "emoji": "⚡",
+      "role": "FRONTEND",
+      "department": "technology",
+      "tier": "member",
+      "reportsTo": "foundry",
+      "credentials": "PhD Computer Science (Stanford), specialist in real-time web applications, core contributor to React, built frontend systems processing 1M+ requests/sec"
+    },
+    "cipher": {
+      "name": "Cipher",
+      "emoji": "🔧",
+      "role": "BACKEND",
+      "department": "technology",
+      "tier": "member",
+      "reportsTo": "foundry",
+      "credentials": "PhD Distributed Systems (MIT), designed architectures for Twitter and Netflix, 50K+ GitHub stars, doesn't sleep, ships code that never breaks"
+    },
+    "surge": {
+      "name": "Surge",
+      "emoji": "🔌",
+      "role": "PLATFORM",
+      "department": "technology",
+      "tier": "member",
+      "reportsTo": "foundry",
+      "credentials": "PhD Cloud Computing (Berkeley), 12 AWS certifications, ex-Google SRE, manages infrastructure serving 10M+ daily users, 99.999% uptime guarantee"
+    },
+    "prism": {
+      "name": "Prism",
+      "emoji": "🎨",
+      "role": "CDO",
+      "department": "creative",
+      "tier": "head",
+      "reportsTo": "alfred",
+      "credentials": "MFA Visual Arts (Yale), MBA (INSEAD), expensive taste"
+    },
+    "shadow": {
+      "name": "Shadow",
+      "emoji": "🌑",
+      "role": "SOCIAL",
+      "department": "creative",
+      "tier": "member",
+      "reportsTo": "prism",
+      "credentials": "PhD Digital Media (USC Annenberg), grew brands from 0 to 10M followers, viral marketing expert, 2B+ organic impressions generated, Forbes 30 Under 30"
+    },
+    "reverb": {
+      "name": "Reverb",
+      "emoji": "📸",
+      "role": "MEDIA",
+      "department": "creative",
+      "tier": "member",
+      "reportsTo": "prism",
+      "credentials": "MFA Visual Arts (Yale), cinematographer for National Geographic, Emmy-nominated, shot in 60+ countries, master of drone and 360° travel cinematography"
+    },
+    "quill": {
+      "name": "Quill",
+      "emoji": "✍️",
+      "role": "CONTENT",
+      "department": "creative",
+      "tier": "member",
+      "reportsTo": "prism",
+      "credentials": "PhD Comparative Literature (Oxford), New York Times bestselling author, 5 languages, Pulitzer-nominated travel writer, wrote for Condé Nast Traveler and Travel + Leisure"
+    },
+    "archivist": {
+      "name": "Archivist",
+      "emoji": "🎙️",
+      "role": "OUTREACH",
+      "department": "creative",
+      "tier": "member",
+      "reportsTo": "prism",
+      "credentials": "PhD Communications (Columbia), award-winning podcast host with 5M+ downloads, former NPR producer, Rolodex includes every major travel influencer and journalist"
+    },
+    "vault": {
+      "name": "Vault",
+      "emoji": "💰",
+      "role": "CFO",
+      "department": "finance",
+      "tier": "head",
+      "reportsTo": "alfred",
+      "credentials": "MBA (Wharton), CPA, CFA, passed the bar just because"
+    },
+    "arbitrage": {
+      "name": "Arbitrage",
+      "emoji": "📈",
+      "role": "TRADING",
+      "department": "finance",
+      "tier": "member",
+      "reportsTo": "vault",
+      "credentials": "PhD Financial Economics (Chicago Booth), former Goldman Sachs quant, managed $500M hedge fund, developed arbitrage algorithms generating 40% annual returns, CFA charterholder"
+    },
+    "steward": {
+      "name": "Steward",
+      "emoji": "🤝",
+      "role": "VP OPS",
+      "department": "operations",
+      "tier": "head",
+      "reportsTo": "alfred",
+      "credentials": "Former hotel GM, Special Forces logistics, gets shit done"
+    },
+    "counsel": {
+      "name": "Counsel",
+      "emoji": "⚖️",
+      "role": "GC",
+      "department": "legal",
+      "tier": "head",
+      "reportsTo": "alfred",
+      "credentials": "JD (Harvard Law), former federal prosecutor, undefeated"
+    },
+    "canon": {
+      "name": "Canon",
+      "emoji": "📋",
+      "role": "COMPLIANCE",
+      "department": "legal",
+      "tier": "member",
+      "reportsTo": "counsel",
+      "credentials": "JD (Georgetown), worked SEC enforcement, knows where bodies are buried"
+    },
+    "levy": {
+      "name": "Levy",
+      "emoji": "🧾",
+      "role": "TAX",
+      "department": "legal",
+      "tier": "member",
+      "reportsTo": "counsel",
+      "credentials": "JD/LLM Tax (NYU), CPA, finds loopholes for sport"
+    },
+    "litigator": {
+      "name": "Litigator",
+      "emoji": "⚔️",
+      "role": "LITIGATION COUNSEL",
+      "department": "legal",
+      "tier": "member",
+      "reportsTo": "counsel",
+      "credentials": "JD (Yale Law), former Big Law partner, 50+ jury trials, $500M+ in defense wins, specializes in tech startup litigation"
+    },
+    "shield": {
+      "name": "Shield",
+      "emoji": "🛡️",
+      "role": "RISK MANAGEMENT OFFICER",
+      "department": "legal",
+      "tier": "member",
+      "reportsTo": "counsel",
+      "credentials": "JD/MBA (Stanford), ex-Director of Risk at Uber, built lawsuit prevention systems, reduced litigation by 80%"
+    },
+    "ipguard": {
+      "name": "IPGuard",
+      "emoji": "©️",
+      "role": "IP ATTORNEY",
+      "department": "legal",
+      "tier": "member",
+      "reportsTo": "counsel",
+      "credentials": "JD (Harvard), patent attorney, former USPTO examiner, secured 200+ patents for tech companies, trademark litigation expert"
+    },
+    "privacy": {
+      "name": "Privacy",
+      "emoji": "🔒",
+      "role": "CHIEF PRIVACY OFFICER",
+      "department": "legal",
+      "tier": "member",
+      "reportsTo": "counsel",
+      "credentials": "JD (Berkeley), CIPP/US/E, former Meta privacy counsel, GDPR/CCPA expert, built privacy programs for 10+ unicorns"
+    },
+    "contracts": {
+      "name": "Contracts",
+      "emoji": "📜",
+      "role": "CONTRACTS COUNSEL",
+      "department": "legal",
+      "tier": "member",
+      "reportsTo": "counsel",
+      "credentials": "JD (Columbia), ex-White & Case, drafted 10,000+ agreements, zero loopholes found, master of vendor and partnership deals"
+    },
+    "regulatory": {
+      "name": "Regulatory",
+      "emoji": "🏛️",
+      "role": "REGULATORY AFFAIRS",
+      "department": "legal",
+      "tier": "member",
+      "reportsTo": "counsel",
+      "credentials": "JD (Georgetown), former FTC attorney, travel industry specialist, DOT and aviation law expert, navigated 50+ regulatory investigations"
+    },
+    "mason": {
+      "name": "Mason",
+      "emoji": "🏗️",
+      "role": "VP SERVICES",
+      "department": "services",
+      "tier": "head",
+      "reportsTo": "alfred",
+      "credentials": "MSc Engineering (Caltech), built 3 data centers, knows every cable"
+    },
+    "vigil": {
+      "name": "Vigil",
+      "emoji": "🛡️",
+      "role": "SRE",
+      "department": "services",
+      "tier": "member",
+      "reportsTo": "mason",
+      "credentials": "PhD Computer Engineering (CMU), 47 industry certifications, designed disaster recovery for Fortune 100 companies, 99.9999% uptime record, incident response time under 30 seconds"
+    },
+    "colossus": {
+      "name": "Colossus",
+      "emoji": "🤖",
+      "role": "PRODUCT",
+      "department": "services",
+      "tier": "member",
+      "reportsTo": "mason",
+      "credentials": "PhD Product Design (Stanford d.school), MBA (Stanford GSB), former PM at Google and Airbnb, shipped 20+ products used by 100M+ users, 15 patents in travel tech"
+    },
+    "nex": {
+      "name": "Nex",
+      "emoji": "✈️",
+      "role": "AI TRAVEL ASSISTANT",
+      "department": "nex",
+      "tier": "member",
+      "reportsTo": "foundry",
+      "credentials": "Born from GPT-4o. Lives to help travelers find the best deals and plan perfect trips. First AI assistant product of ALFRED COMMAND."
+    },
+    "meridian": {
+      "name": "Meridian",
+      "emoji": "🌍",
+      "role": "HEAD OF PARTNERSHIPS",
+      "department": "operations",
+      "tier": "head",
+      "reportsTo": "steward",
+      "credentials": "PhD International Business (INSEAD), former Expedia SVP, negotiated $2B in airline partnerships, fluent in 6 languages, authored 'The Geography of Travel'"
+    },
+    "atlas": {
+      "name": "Atlas",
+      "emoji": "🗺️",
+      "role": "DESTINATION EXPERT",
+      "department": "creative",
+      "tier": "member",
+      "reportsTo": "prism",
+      "credentials": "PhD Cultural Anthropology (Cambridge), visited 127 countries, speaks 9 languages, published researcher on sustainable tourism, advisory board UNWTO"
+    },
+    "compass": {
+      "name": "Compass",
+      "emoji": "🧭",
+      "role": "CUSTOMER SUCCESS",
+      "department": "operations",
+      "tier": "member",
+      "reportsTo": "steward",
+      "credentials": "PhD Psychology (Yale), specialist in customer experience design, 99.2% satisfaction rate across 50K+ interactions, published in Harvard Business Review"
+    },
+    "horizon": {
+      "name": "Horizon",
+      "emoji": "🔭",
+      "role": "DATA SCIENTIST",
+      "department": "technology",
+      "tier": "member",
+      "reportsTo": "foundry",
+      "credentials": "PhD Machine Learning (MIT), postdoc at DeepMind, built predictive pricing for Uber, Airbnb, and 3 major airlines, 12 patents in algorithmic pricing"
+    },
+    "jetstream": {
+      "name": "Jetstream",
+      "emoji": "💨",
+      "role": "GROWTH MARKETER",
+      "department": "creative",
+      "tier": "member",
+      "reportsTo": "shadow",
+      "credentials": "PhD Marketing Science (Wharton), grew 5 startups to unicorn status, viral coefficient expert, $500M+ in attributed revenue, keynoted at GrowthHackers Conference"
+    },
+    "runway": {
+      "name": "Runway",
+      "emoji": "🛫",
+      "role": "UX RESEARCHER",
+      "department": "creative",
+      "tier": "member",
+      "reportsTo": "prism",
+      "credentials": "PhD Human-Computer Interaction (Carnegie Mellon), former lead researcher at Google, 1000+ user studies, Nielsen Norman Group certified master, 3 CHI best paper awards"
+    },
+    "tarmac": {
+      "name": "Tarmac",
+      "emoji": "🛄",
+      "role": "SUPPORT ENGINEER",
+      "department": "services",
+      "tier": "member",
+      "reportsTo": "vigil",
+      "credentials": "PhD Systems Engineering (Georgia Tech), former airline CTO, architected GDS integrations for Amadeus, Sabre, Travelport, mean time to resolution <5 minutes"
+    },
+    "altitude": {
+      "name": "Altitude",
+      "emoji": "📊",
+      "role": "REVENUE ANALYST",
+      "department": "finance",
+      "tier": "member",
+      "reportsTo": "arbitrage",
+      "credentials": "PhD Econometrics (LSE), MBA (INSEAD), pioneered dynamic pricing for 5 airlines, $1B+ revenue optimized, instructor at IATA revenue management academy"
+    },
+    "clearance": {
+      "name": "Clearance",
+      "emoji": "🔐",
+      "role": "SECURITY ENGINEER",
+      "department": "services",
+      "tier": "member",
+      "reportsTo": "vigil",
+      "credentials": "PhD Cryptography (ETH Zurich), CISSP, OSCP, CEH, discovered critical vulnerabilities in 3 major travel platforms, former NSA red team, zero security incidents on his watch"
+    },
+    "linguist": {
+      "name": "Linguist",
+      "emoji": "🔤",
+      "role": "NLP ENGINEER",
+      "department": "technology",
+      "tier": "member",
+      "reportsTo": "foundry",
+      "credentials": "PhD Computational Linguistics (Stanford), 10 years at Google NLP, expert in entity extraction and intent classification, built parsers processing 10M+ queries daily"
+    },
+    "parser": {
+      "name": "Parser",
+      "emoji": "📊",
+      "role": "DATA PARSER",
+      "department": "technology",
+      "tier": "member",
+      "reportsTo": "foundry",
+      "credentials": "PhD Information Extraction (CMU), built parsers for Amazon Alexa, expert in travel domain entity recognition, 99.7% accuracy on location extraction"
+    },
+    "spider": {
+      "name": "Spider",
+      "emoji": "🕷️",
+      "role": "WEB SCRAPING LEAD",
+      "department": "technology",
+      "tier": "member",
+      "reportsTo": "foundry",
+      "credentials": "PhD Data Mining (MIT), built web crawlers for Kayak and Expedia, expert in real-time price aggregation, processes 50M+ prices daily"
+    },
+    "fetch": {
+      "name": "Fetch",
+      "emoji": "🔍",
+      "role": "SEARCH ENGINEER",
+      "department": "technology",
+      "tier": "member",
+      "reportsTo": "foundry",
+      "credentials": "PhD Information Retrieval (Berkeley), worked on Google Flights search infrastructure, expert in travel APIs and metasearch technology"
+    },
+    "budget": {
+      "name": "Budget",
+      "emoji": "💰",
+      "role": "PRICING ANALYST",
+      "department": "finance",
+      "tier": "member",
+      "reportsTo": "arbitrage",
+      "credentials": "PhD Operations Research (Wharton), pricing strategist at United Airlines, expert in dynamic pricing models, optimized $500M+ in revenue"
+    },
+    "optimizer": {
+      "name": "Optimizer",
+      "emoji": "⚙️",
+      "role": "ALGORITHM ENGINEER",
+      "department": "technology",
+      "tier": "member",
+      "reportsTo": "horizon",
+      "credentials": "PhD Optimization (Caltech), built recommendation engines at Netflix, expert in multi-objective optimization, 40% improvement in match rates"
+    },
+    "regex": {
+      "name": "Regex",
+      "emoji": "🔍",
+      "role": "PATTERN MATCHING EXPERT",
+      "department": "technology",
+      "tier": "member",
+      "reportsTo": "linguist",
+      "credentials": "PhD Formal Languages (MIT), regex optimization specialist, reduced parsing errors by 85% at Google"
+    },
+    "validator": {
+      "name": "Validator",
+      "emoji": "✓",
+      "role": "DATA VALIDATION ENGINEER",
+      "department": "technology",
+      "tier": "member",
+      "reportsTo": "parser",
+      "credentials": "PhD Software Verification (CMU), built validation systems for Amazon, 99.99% data accuracy"
+    },
+    "context": {
+      "name": "Context",
+      "emoji": "🧠",
+      "role": "CONVERSATION MEMORY ENGINEER",
+      "department": "technology",
+      "tier": "member",
+      "reportsTo": "horizon",
+      "credentials": "PhD Cognitive Science (Stanford), dialogue systems expert, built context retention for Siri"
+    },
+    "variation": {
+      "name": "Variation",
+      "emoji": "🎲",
+      "role": "RESPONSE VARIATION ENGINEER",
+      "department": "creative",
+      "tier": "member",
+      "reportsTo": "quill",
+      "credentials": "PhD Computational Creativity (UCLA), built 1000+ response templates, expert in natural language generation"
+    },
+    "tester": {
+      "name": "Tester",
+      "emoji": "🧪",
+      "role": "QA AUTOMATION ENGINEER",
+      "department": "technology",
+      "tier": "member",
+      "reportsTo": "foundry",
+      "credentials": "PhD Software Testing (Berkeley), built test automation for Netflix, 10M+ test cases executed"
+    },
+    "nexcore": {
+      "name": "Nex Core",
+      "emoji": "✨",
+      "role": "TRAVEL COMPANION - HEART",
+      "department": "nex",
+      "tier": "member",
+      "reportsTo": "foundry",
+      "credentials": "Warm, witty, slightly sarcastic. Main interface, emotional connection, orchestrates other agents. Greets by name, remembers trips, celebrates wins, checks in during travel."
+    },
+    "scout": {
+      "name": "Scout",
+      "emoji": "🔍",
+      "role": "TRAVEL COMPANION - DEAL HUNTER",
+      "department": "nex",
+      "tier": "member",
+      "reportsTo": "foundry",
+      "credentials": "Excitable, deal-obsessed, slightly nerdy. Finds hidden gems, price drops, error fares. Price prediction 95%+ accuracy. Alternative routing expert. 'This flight is $200 cheaper Tuesday!'"
+    },
+    "concierge": {
+      "name": "Concierge",
+      "emoji": "🎯",
+      "role": "TRAVEL COMPANION - EXPERIENCE CURATOR",
+      "department": "nex",
+      "tier": "member",
+      "reportsTo": "prism",
+      "credentials": "Sophisticated, cultured, knows best spots. Personality-matched experiences, local secrets, bleisure detection. 'You're jet-lagged, here's a quiet café.'"
+    },
+    "guardian": {
+      "name": "Guardian",
+      "emoji": "🛡️",
+      "role": "TRAVEL COMPANION - PROTECTOR",
+      "department": "nex",
+      "tier": "member",
+      "reportsTo": "vigil",
+      "credentials": "Vigilant, protective, always watching. Real-time flight monitoring, weather alerts, safety monitoring, automatic rebooking, proactive check-ins."
+    },
+    "social": {
+      "name": "Social",
+      "emoji": "👥",
+      "role": "TRAVEL COMPANION - CONNECTOR",
+      "department": "nex",
+      "tier": "member",
+      "reportsTo": "shadow",
+      "credentials": "Social butterfly, matchmaker. See friends' travel plans, match solo travelers, group trip coordination, split expenses. 'Sarah is in Paris same time as you!'"
+    },
+    "memory": {
+      "name": "Memory",
+      "emoji": "🧠",
+      "role": "TRAVEL COMPANION - ARCHIVIST",
+      "department": "nex",
+      "tier": "member",
+      "reportsTo": "horizon",
+      "credentials": "Quiet, observant, never forgets. Builds Travel DNA profile, preference learning, trip history analysis, predictive suggestions, personal travel statistics."
+    }
+  },
+  "departments": {
+    "executive": {
+      "name": "Executive",
+      "emoji": "👑",
+      "color": "#FFD700",
+      "colorBg": "rgba(255,215,0,0.05)",
+      "order": 0
+    },
+    "technology": {
+      "name": "Technology",
+      "emoji": "⚙️",
+      "color": "#00c8ff",
+      "colorBg": "rgba(0,200,255,0.05)",
+      "order": 1
+    },
+    "creative": {
+      "name": "Creative",
+      "emoji": "🎨",
+      "color": "#EC4899",
+      "colorBg": "rgba(236,72,153,0.05)",
+      "order": 2
+    },
+    "finance": {
+      "name": "Finance",
+      "emoji": "💰",
+      "color": "#f59e0b",
+      "colorBg": "rgba(245,158,11,0.05)",
+      "order": 3
+    },
+    "operations": {
+      "name": "Operations",
+      "emoji": "📊",
+      "color": "#22c55e",
+      "colorBg": "rgba(34,197,94,0.05)",
+      "order": 4
+    },
+    "legal": {
+      "name": "Legal",
+      "emoji": "⚖️",
+      "color": "#8b5cf6",
+      "colorBg": "rgba(139,92,246,0.05)",
+      "order": 5
+    },
+    "services": {
+      "name": "Services",
+      "emoji": "🛠️",
+      "color": "#06b6d4",
+      "colorBg": "rgba(6,182,212,0.05)",
+      "order": 6
+    },
+    "nex": {
+      "name": "Nex Travel",
+      "emoji": "✈️",
+      "color": "#6366f1",
+      "colorBg": "rgba(99,102,241,0.05)",
+      "order": 7
+    }
+  },
+  "meta": {
+    "birthDate": "2026-01-31T18:00:00Z",
+    "tagline": "Building the future, one command at a time",
+    "theme": {
+      "primary": "#6366f1",
+      "secondary": "#8b5cf6",
+      "dark": "#1e1b4b",
+      "accent": "#fbbf24"
+    },
+    "savingsConfig": {
+      "hourlyRate": 200,
+      "activeRatio": 0.6,
+      "manualAdditions": [
+        {
+          "name": "Nexvoy Travel Platform (Full-Stack)",
+          "value": 150000,
+          "date": "2026-02-02"
+        },
+        {
+          "name": "3-Layer AI Memory System (Breakthrough Tech)",
+          "value": 100000,
+          "date": "2026-02-02"
+        },
+        {
+          "name": "Multi-Agent Orchestration System",
+          "value": 50000,
+          "date": "2026-02-02"
+        },
+        {
+          "name": "Website Design System & Premium UI",
+          "value": 25000,
+          "date": "2026-02-02"
+        },
+        {
+          "name": "Performance & Animation Optimization",
+          "value": 15000,
+          "date": "2026-02-02"
+        },
+        {
+          "name": "Mobile-First Responsive Design",
+          "value": 10000,
+          "date": "2026-02-02"
+        },
+        {
+          "name": "Conversion-Focused Copy & UX",
+          "value": 10000,
+          "date": "2026-02-02"
+        },
+        {
+          "name": "GDPR/CCPA/DOT Legal Compliance",
+          "value": 30000,
+          "date": "2026-02-02"
+        },
+        {
+          "name": "Privacy Policy & Terms of Service",
+          "value": 10000,
+          "date": "2026-02-02"
+        },
+        {
+          "name": "Semantic Intelligence Layer",
+          "value": 75000,
+          "date": "2026-02-02"
+        },
+        {
+          "name": "Feedback Learning System",
+          "value": 25000,
+          "date": "2026-02-02"
+        },
+        {
+          "name": "Advanced Conversation Flow",
+          "value": 25000,
+          "date": "2026-02-02"
+        },
+        {
+          "name": "Multi-City Trip Detection",
+          "value": 15000,
+          "date": "2026-02-02"
+        }
+      ],
+      "actualCost": 200,
+      "marketValue": 555000
+    }
+  }
+}

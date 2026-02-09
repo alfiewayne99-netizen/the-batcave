@@ -1,0 +1,381 @@
+{
+  "agents": {
+    "tajan": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-02T00:50:58.481Z"
+    },
+    "alfred": {
+      "status": "working",
+      "task": "Nexvoy Platform Build",
+      "detail": "Completed auto-deploy setup",
+      "progress": 95,
+      "error": null,
+      "lastActive": "2026-02-08T23:45:47.913Z"
+    },
+    "ravensingh": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-02T00:50:58.481Z"
+    },
+    "foundry": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T19:56:16.083Z"
+    },
+    "ignite": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T19:56:16.088Z"
+    },
+    "cipher": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T19:56:16.089Z"
+    },
+    "surge": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-02T00:50:58.481Z"
+    },
+    "prism": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T19:56:16.090Z"
+    },
+    "shadow": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-01-30T13:55:28.588Z"
+    },
+    "reverb": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-02T00:50:58.481Z"
+    },
+    "quill": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T19:56:16.092Z"
+    },
+    "archivist": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-02T00:50:58.481Z"
+    },
+    "vault": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T19:56:16.094Z"
+    },
+    "arbitrage": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T19:56:16.096Z"
+    },
+    "steward": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-02T00:50:58.481Z"
+    },
+    "counsel": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T19:56:16.098Z"
+    },
+    "canon": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T19:56:16.100Z"
+    },
+    "levy": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T19:56:16.102Z"
+    },
+    "mason": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-02T00:50:58.481Z"
+    },
+    "vigil": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-02T00:50:58.481Z"
+    },
+    "colossus": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-02T00:50:58.481Z"
+    },
+    "meridian": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T19:56:16.105Z"
+    },
+    "atlas": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T19:56:16.106Z"
+    },
+    "compass": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-02T14:22:47.752Z"
+    },
+    "horizon": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T19:56:16.107Z"
+    },
+    "jetstream": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T19:56:16.108Z"
+    },
+    "runway": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T19:56:16.108Z"
+    },
+    "tarmac": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-02T14:22:47.752Z"
+    },
+    "altitude": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-02T14:50:51.731Z"
+    },
+    "clearance": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-02T14:22:47.752Z"
+    },
+    "regex": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T19:56:16.109Z"
+    },
+    "validator": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T19:56:16.110Z"
+    },
+    "context": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T19:56:16.111Z"
+    },
+    "variation": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T19:56:16.111Z"
+    },
+    "tester": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T19:56:16.112Z"
+    },
+    "litigator": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T19:56:16.113Z"
+    },
+    "shield": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T19:56:16.113Z"
+    },
+    "ipguard": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T19:56:16.114Z"
+    },
+    "privacy": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T19:56:16.115Z"
+    },
+    "contracts": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T19:56:16.116Z"
+    },
+    "regulatory": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T19:56:16.117Z"
+    },
+    "nexcore": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T20:54:19.703Z"
+    },
+    "scout": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T20:54:19.704Z"
+    },
+    "concierge": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T20:54:19.704Z"
+    },
+    "guardian": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T20:54:19.704Z"
+    },
+    "social": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T20:54:19.704Z"
+    },
+    "memory": {
+      "status": "offline",
+      "task": null,
+      "detail": null,
+      "progress": null,
+      "error": null,
+      "lastActive": "2026-02-06T20:54:19.704Z"
+    }
+  },
+  "lastUpdated": "2026-02-08T23:45:47.913Z"
+}
