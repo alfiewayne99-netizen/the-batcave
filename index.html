@@ -8,7 +8,7 @@
   <meta http-equiv="Expires" content="0">
   <title>The Batcave | Agent Command Center</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
       --bat-black: #0a0a0a;
@@ -37,7 +37,6 @@
       overflow-x: hidden;
     }
     
-    /* Clean Cave Background */
     .batcave-bg {
       position: fixed;
       top: 0; left: 0;
@@ -50,7 +49,6 @@
       background-position: center;
     }
     
-    /* Clean Header */
     .header {
       background: linear-gradient(180deg, rgba(13,13,20,0.98) 0%, rgba(10,10,16,0.95) 100%);
       border-bottom: 1px solid var(--bat-border);
@@ -73,48 +71,81 @@
       text-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
     }
     
-    .logo svg {
-      width: 48px;
-      height: 28px;
+    .logo img {
+      height: 36px;
+      width: auto;
       filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
     }
     
-    /* Layout - Sidebar + Main */
     .app-container {
       display: grid;
       grid-template-columns: 240px 1fr 320px;
       min-height: calc(100vh - 70px);
     }
     
-    /* Sidebar Navigation */
+    /* Search Bar */
+    .search-box {
+      margin: 0 1rem 1rem;
+      position: relative;
+    }
+    
+    .search-box input {
+      width: 100%;
+      background: rgba(30,30,36,0.6);
+      border: 1px solid var(--bat-border);
+      border-radius: 8px;
+      padding: 0.625rem 0.875rem 0.625rem 2.25rem;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    
+    .search-box input:focus {
+      outline: none;
+      border-color: var(--neon-blue);
+      box-shadow: 0 0 0 3px rgba(0,212,255,0.1);
+    }
+    
+    .search-box input::placeholder {
+      color: var(--text-muted);
+    }
+    
+    .search-icon {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    
     .sidebar {
       background: linear-gradient(180deg, rgba(13,13,20,0.95) 0%, rgba(10,10,16,0.9) 100%);
       border-right: 1px solid var(--bat-border);
-      padding: 1.5rem 0;
+      padding: 1rem 0 1.5rem;
       overflow-y: auto;
+      display: flex;
+      flex-direction: column;
     }
     
-    .nav-section {
-      margin-bottom: 1.5rem;
-    }
-    
+    .nav-section { margin-bottom: 1rem; }
     .nav-title {
       font-size: 0.7rem;
       text-transform: uppercase;
       letter-spacing: 0.15em;
       color: var(--text-muted);
-      padding: 0 1.25rem;
-      margin-bottom: 0.75rem;
+      padding: 0 1rem;
+      margin-bottom: 0.5rem;
     }
     
     .nav-item {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 0.6rem 1.25rem;
+      gap: 10px;
+      padding: 0.5rem 1rem;
       cursor: pointer;
-      transition: all 0.2s;
-      border-left: 3px solid transparent;
+      transition: all 0.15s;
+      border-left: 2px solid transparent;
     }
     
     .nav-item:hover, .nav-item.active {
@@ -122,42 +153,73 @@
       border-left-color: var(--neon-blue);
     }
     
-    .nav-icon {
-      font-size: 1.1rem;
-      width: 24px;
-      text-align: center;
-    }
-    
-    .nav-text {
-      font-size: 0.85rem;
-      font-weight: 500;
-    }
-    
+    .nav-icon { font-size: 1rem; width: 20px; text-align: center; }
+    .nav-text { font-size: 0.8rem; font-weight: 500; }
     .nav-badge {
       margin-left: auto;
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       padding: 2px 8px;
       border-radius: 10px;
       background: var(--bat-light);
       color: var(--text-secondary);
     }
     
-    /* Main Content */
+    /* Terminal */
+    .terminal {
+      margin-top: auto;
+      padding: 0.75rem;
+      background: rgba(8,8,12,0.9);
+      border-top: 1px solid var(--bat-border);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+    
+    .terminal-line {
+      padding: 2px 0;
+      color: var(--text-secondary);
+      display: flex;
+      gap: 8px;
+    }
+    
+    .terminal-time {
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+    
+    .terminal-agent {
+      color: var(--neon-blue);
+      flex-shrink: 0;
+    }
+    
+    .terminal-msg {
+      color: var(--text-secondary);
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    
+    .terminal-prompt {
+      color: var(--neon-green);
+      margin-top: 4px;
+    }
+    
     .main-content {
-      padding: 1.5rem;
+      padding: 1.25rem;
       overflow-y: auto;
       max-height: calc(100vh - 70px);
     }
     
-    /* Stats Bar */
     .stats-bar {
       display: flex;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-      padding: 1rem 1.25rem;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+      padding: 0.875rem 1rem;
       background: rgba(20,20,28,0.6);
       border: 1px solid var(--bat-border);
-      border-radius: 12px;
+      border-radius: 10px;
     }
     
     .stat-item {
@@ -168,96 +230,74 @@
     }
     
     .stat-item:last-child { border-right: none; }
-    
     .stat-value {
       font-family: 'Rajdhani', sans-serif;
-      font-size: 1.75rem;
+      font-size: 1.5rem;
       font-weight: 700;
       color: var(--text-primary);
     }
-    
     .stat-label {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       text-transform: uppercase;
       letter-spacing: 0.1em;
       color: var(--text-muted);
       margin-top: 0.25rem;
     }
-    
     .stat-value.working { color: var(--neon-green); }
     .stat-value.idle { color: var(--neon-orange); }
     .stat-value.offline { color: var(--neon-red); }
     
-    /* Department Headers */
-    .department {
-      margin-bottom: 1.5rem;
-    }
-    
+    .department { margin-bottom: 1.25rem; }
     .dept-header {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 1rem;
-      padding-bottom: 0.75rem;
+      gap: 8px;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
       border-bottom: 1px solid var(--bat-border);
     }
-    
-    .dept-icon {
-      font-size: 1.25rem;
-    }
-    
+    .dept-icon { font-size: 1.1rem; }
     .dept-title {
       font-family: 'Rajdhani', sans-serif;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.1em;
     }
-    
     .dept-count {
       margin-left: auto;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       color: var(--text-muted);
       background: var(--bat-light);
-      padding: 4px 12px;
+      padding: 3px 10px;
       border-radius: 20px;
     }
     
-    /* Ultra-Compact Agent Cards - Henry Style */
     .agents-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 0.625rem;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 0.5rem;
     }
     
     .agent-card {
       background: linear-gradient(145deg, rgba(25,25,35,0.85), rgba(18,18,25,0.85));
       border: 1px solid var(--bat-border);
       border-radius: 8px;
-      padding: 0.625rem 0.75rem;
-      position: relative;
+      padding: 0.625rem;
+      cursor: pointer;
       transition: all 0.15s;
       backdrop-filter: blur(10px);
     }
     
     .agent-card:hover {
-      transform: translateY(-1px);
-      border-color: rgba(0, 212, 255, 0.25);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transform: translateY(-2px);
+      border-color: rgba(0, 212, 255, 0.3);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 20px rgba(0,212,255,0.1);
     }
     
-    .agent-card.working {
-      border-left: 2px solid var(--neon-green);
-    }
-    
-    .agent-card.idle {
-      border-left: 2px solid var(--neon-orange);
-    }
-    
-    .agent-card.offline {
-      opacity: 0.55;
-      border-left: 2px solid var(--neon-red);
-    }
+    .agent-card.working { border-left: 2px solid var(--neon-green); }
+    .agent-card.idle { border-left: 2px solid var(--neon-orange); }
+    .agent-card.offline { opacity: 0.55; border-left: 2px solid var(--neon-red); }
     
     .agent-header {
       display: flex;
@@ -266,66 +306,33 @@
       margin-bottom: 0.375rem;
     }
     
-    /* Compact Avatar with Status Ring */
-    .agent-avatar-wrapper {
-      position: relative;
-      flex-shrink: 0;
-    }
-    
     .agent-avatar {
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
-      background: linear-gradient(145deg, rgba(40,40,55,0.9), rgba(25,25,35,0.9));
+      background: linear-gradient(145deg, rgba(60,60,80,0.9), rgba(40,40,55,0.9));
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.95rem;
+      font-size: 0.7rem;
+      font-weight: 600;
       border: 1.5px solid var(--bat-border);
+      flex-shrink: 0;
     }
     
-    .agent-avatar-wrapper::before {
-      content: '';
-      position: absolute;
-      top: -2px; left: -2px; right: -2px; bottom: -2px;
-      border-radius: 50%;
-      border: 1.5px solid transparent;
-    }
-    
-    .agent-card.working .agent-avatar-wrapper::before {
+    .agent-card.working .agent-avatar {
       border-color: var(--neon-green);
       box-shadow: 0 0 6px var(--neon-green);
-      animation: statusPulse 2s infinite;
     }
     
-    .agent-card.idle .agent-avatar-wrapper::before {
-      border-color: var(--neon-orange);
-    }
-    
-    .agent-card.offline .agent-avatar-wrapper::before {
-      border-color: var(--neon-red);
-      opacity: 0.4;
-    }
-    
-    @keyframes statusPulse {
-      0%, 100% { box-shadow: 0 0 3px var(--neon-green); }
-      50% { box-shadow: 0 0 8px var(--neon-green); }
-    }
-    
-    .agent-info {
-      min-width: 0;
-      flex: 1;
-    }
-    
+    .agent-info { min-width: 0; flex: 1; }
     .agent-name {
       font-weight: 600;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      line-height: 1.2;
     }
-    
     .agent-role {
       font-size: 0.6rem;
       color: var(--text-muted);
@@ -334,34 +341,29 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      line-height: 1.2;
     }
     
     .agent-task {
       font-size: 0.7rem;
       color: var(--text-secondary);
       line-height: 1.3;
-      margin-bottom: 0.25rem;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
     
-    .agent-detail {
-      font-size: 0.65rem;
-      color: var(--text-muted);
-      line-height: 1.2;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    .agent-progress {
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      margin-top: 0.375rem;
     }
     
-    /* Compact Progress Bar */
     .progress-bar {
+      flex: 1;
       height: 3px;
       background: var(--bat-light);
       border-radius: 1.5px;
-      margin-top: 0.375rem;
       overflow: hidden;
     }
     
@@ -369,30 +371,36 @@
       height: 100%;
       background: linear-gradient(90deg, var(--neon-green), #00cc6a);
       border-radius: 1.5px;
-      transition: width 0.3s;
+      transition: width 0.5s ease;
+    }
+    
+    .progress-text {
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      min-width: 24px;
+      text-align: right;
     }
     
     .agent-meta {
       font-size: 0.6rem;
       color: var(--text-muted);
-      margin-top: 0.375rem;
+      margin-top: 0.25rem;
     }
     
-    /* Right Sidebar - Activity */
     .activity-panel {
       background: linear-gradient(180deg, rgba(13,13,20,0.95) 0%, rgba(10,10,16,0.9) 100%);
       border-left: 1px solid var(--bat-border);
-      padding: 1.5rem;
+      padding: 1.25rem;
       overflow-y: auto;
     }
     
     .activity-title {
       font-family: 'Rajdhani', sans-serif;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      margin-bottom: 1.25rem;
+      margin-bottom: 1rem;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -400,45 +408,255 @@
     
     .activity-item {
       display: flex;
-      gap: 12px;
-      padding: 0.875rem 0;
+      gap: 10px;
+      padding: 0.625rem 0;
       border-bottom: 1px solid var(--bat-border);
+      animation: slideIn 0.3s ease;
     }
     
-    .activity-item:last-child {
-      border-bottom: none;
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-10px); }
+      to { opacity: 1; transform: translateX(0); }
     }
     
-    .activity-icon {
-      font-size: 1.1rem;
-      flex-shrink: 0;
-    }
-    
-    .activity-content {
-      flex: 1;
-    }
-    
+    .activity-item:last-child { border-bottom: none; }
+    .activity-icon { font-size: 1rem; flex-shrink: 0; }
+    .activity-content { flex: 1; }
     .activity-text {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       line-height: 1.4;
       color: var(--text-secondary);
     }
+    .activity-agent { color: var(--neon-blue); font-weight: 500; }
+    .activity-time {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      margin-top: 0.125rem;
+    }
     
-    .activity-agent {
-      color: var(--neon-blue);
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(5px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    
+    .modal-overlay.active { display: flex; }
+    
+    .modal {
+      background: linear-gradient(145deg, rgba(20,20,28,0.98), rgba(13,13,20,0.98));
+      border: 1px solid var(--bat-border);
+      border-radius: 12px;
+      width: 100%;
+      max-width: 500px;
+      max-height: 80vh;
+      overflow-y: auto;
+      animation: modalIn 0.3s ease;
+    }
+    
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    
+    .modal-header {
+      padding: 1.25rem;
+      border-bottom: 1px solid var(--bat-border);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .modal-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, rgba(60,60,80,0.9), rgba(40,40,55,0.9));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 600;
+      border: 2px solid var(--bat-border);
+    }
+    
+    .modal-title h2 {
+      font-size: 1.25rem;
+      margin-bottom: 0.25rem;
+    }
+    
+    .modal-title .role {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    
+    .modal-close {
+      margin-left: auto;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      line-height: 1;
+    }
+    
+    .modal-close:hover { color: var(--text-primary); }
+    
+    .modal-body {
+      padding: 1.25rem;
+    }
+    
+    .modal-section {
+      margin-bottom: 1.25rem;
+    }
+    
+    .modal-section h3 {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+    
+    .modal-section p {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: var(--text-secondary);
+    }
+    
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0.375rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
       font-weight: 500;
     }
     
-    .activity-time {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      margin-top: 0.25rem;
+    .status-badge.working {
+      background: rgba(0,255,136,0.15);
+      color: var(--neon-green);
     }
     
-    /* Scrollbar */
+    .status-badge.idle {
+      background: rgba(255,159,67,0.15);
+      color: var(--neon-orange);
+    }
+    
+    .status-badge.offline {
+      background: rgba(255,71,87,0.15);
+      color: var(--neon-red);
+    }
+    
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    
+    .skill-tag {
+      background: var(--bat-light);
+      padding: 0.375rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+    
+    .modal-footer {
+      padding: 1rem 1.25rem;
+      border-top: 1px solid var(--bat-border);
+      display: flex;
+      gap: 0.75rem;
+    }
+    
+    .btn {
+      flex: 1;
+      padding: 0.625rem 1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+      border: none;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(145deg, var(--neon-blue), #0099cc);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      box-shadow: 0 4px 12px rgba(0,212,255,0.3);
+    }
+    
+    .btn-secondary {
+      background: var(--bat-light);
+      color: var(--text-secondary);
+    }
+    
+    .btn-secondary:hover {
+      background: var(--bat-border);
+    }
+    
+    /* Sound Toggle */
+    .sound-toggle {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      background: var(--bat-light);
+      border: 1px solid var(--bat-border);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 100;
+      transition: all 0.15s;
+    }
+    
+    .sound-toggle:hover {
+      background: var(--bat-border);
+    }
+    
+    .sound-toggle.muted {
+      opacity: 0.5;
+    }
+    
+    /* Mobile */
+    @media (max-width: 1200px) {
+      .app-container { grid-template-columns: 200px 1fr 260px; }
+    }
+    
+    @media (max-width: 992px) {
+      .app-container { grid-template-columns: 1fr; }
+      .sidebar, .activity-panel { display: none; }
+      .mobile-menu-btn {
+        display: flex !important;
+      }
+    }
+    
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
     ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
+      width: 5px;
+      height: 5px;
     }
     
     ::-webkit-scrollbar-track {
@@ -454,32 +672,20 @@
       background: rgba(0, 212, 255, 0.3);
     }
     
-    /* Responsive */
-    @media (max-width: 1400px) {
-      .app-container {
-        grid-template-columns: 200px 1fr 280px;
-      }
-    }
-    
-    @media (max-width: 1200px) {
-      .app-container {
-        grid-template-columns: 1fr;
-      }
-      .sidebar, .activity-panel {
-        display: none;
-      }
-    }
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
   <div class="batcave-bg"></div>
   
-  <!-- Header -->
   <header class="header">
     <div class="flex justify-between items-center">
-      <div class="logo">
-        <img src="batman-logo.jpg?v=2" alt="Batman Logo" style="height: 36px; width: auto; filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));">
-        THE BATCAVE
+      <div class="flex items-center gap-4">
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+        <div class="logo">
+          <img src="batman-logo.jpg?v=2" alt="Batman Logo">
+          THE BATCAVE
+        </div>
       </div>
       <div class="flex items-center gap-6">
         <div class="text-right">
@@ -498,74 +704,85 @@
     </div>
   </header>
   
-  <!-- Main App Container -->
   <div class="app-container">
-    <!-- Left Sidebar -->
     <aside class="sidebar">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="search-input" placeholder="Search agents...">
+      </div>
+      
       <div class="nav-section">
         <div class="nav-title">Overview</div>
-        <div class="nav-item active">
+        <div class="nav-item active" onclick="filterByDept('all')">
           <span class="nav-icon">🏠</span>
           <span class="nav-text">Dashboard</span>
         </div>
-        <div class="nav-item">
+        <div class="nav-item" onclick="showAnalytics()">
           <span class="nav-icon">📊</span>
           <span class="nav-text">Analytics</span>
-        </div>
-        <div class="nav-item">
-          <span class="nav-icon">⚙️</span>
-          <span class="nav-text">Settings</span>
         </div>
       </div>
       
       <div class="nav-section">
         <div class="nav-title">Departments</div>
-        <div class="nav-item" onclick="scrollToDept('executive')">
+        <div class="nav-item" onclick="filterByDept('executive')">
           <span class="nav-icon">👑</span>
           <span class="nav-text">Executive</span>
           <span class="nav-badge" id="count-executive">2</span>
         </div>
-        <div class="nav-item" onclick="scrollToDept('technology')">
+        <div class="nav-item" onclick="filterByDept('technology')">
           <span class="nav-icon">💻</span>
           <span class="nav-text">Technology</span>
           <span class="nav-badge" id="count-technology">12</span>
         </div>
-        <div class="nav-item" onclick="scrollToDept('creative')">
+        <div class="nav-item" onclick="filterByDept('creative')">
           <span class="nav-icon">🎨</span>
           <span class="nav-text">Creative</span>
           <span class="nav-badge" id="count-creative">6</span>
         </div>
-        <div class="nav-item" onclick="scrollToDept('finance')">
+        <div class="nav-item" onclick="filterByDept('finance')">
           <span class="nav-icon">💰</span>
           <span class="nav-text">Finance</span>
           <span class="nav-badge" id="count-finance">4</span>
         </div>
-        <div class="nav-item" onclick="scrollToDept('operations')">
+        <div class="nav-item" onclick="filterByDept('operations')">
           <span class="nav-icon">⚙️</span>
           <span class="nav-text">Operations</span>
           <span class="nav-badge" id="count-operations">5</span>
         </div>
-        <div class="nav-item" onclick="scrollToDept('legal')">
+        <div class="nav-item" onclick="filterByDept('legal')">
           <span class="nav-icon">⚖️</span>
           <span class="nav-text">Legal</span>
           <span class="nav-badge" id="count-legal">8</span>
         </div>
-        <div class="nav-item" onclick="scrollToDept('services')">
+        <div class="nav-item" onclick="filterByDept('services')">
           <span class="nav-icon">🛎️</span>
           <span class="nav-text">Services</span>
           <span class="nav-badge" id="count-services">5</span>
         </div>
-        <div class="nav-item" onclick="scrollToDept('nex')">
+        <div class="nav-item" onclick="filterByDept('nex')">
           <span class="nav-icon">✈️</span>
           <span class="nav-text">Nex Travel</span>
           <span class="nav-badge" id="count-nex">5</span>
         </div>
       </div>
+      
+      <div class="terminal" id="terminal">
+        <div class="terminal-line">
+          <span class="terminal-time">04:47:23</span>
+          <span class="terminal-agent">[SYSTEM]</span>
+          <span class="terminal-msg">Batcave v4.0 initialized...</span>
+        </div>
+        <div class="terminal-line">
+          <span class="terminal-time">04:47:24</span>
+          <span class="terminal-agent">[SYSTEM]</span>
+          <span class="terminal-msg">Connected to agent network (47 nodes)</span>
+        </div>
+        <div class="terminal-prompt">></div>
+      </div>
     </aside>
     
-    <!-- Main Content -->
     <main class="main-content">
-      <!-- Stats Bar -->
       <div class="stats-bar">
         <div class="stat-item">
           <div class="stat-value" id="total-count">47</div>
@@ -580,24 +797,22 @@
           <div class="stat-label">Idle</div>
         </div>
         <div class="stat-item">
-          <div class="stat-value offline" id="offline-count">48</div>
+          <div class="stat-value offline" id="offline-count">0</div>
           <div class="stat-label">Offline</div>
         </div>
         <div class="stat-item">
           <div class="stat-value" id="projects-count">127</div>
-          <div class="stat-label">Projects Done</div>
+          <div class="stat-label">Projects</div>
         </div>
         <div class="stat-item">
           <div class="stat-value" style="color: var(--bat-gold);" id="savings-count">$2.4M</div>
-          <div class="stat-label">Est. Savings</div>
+          <div class="stat-label">Savings</div>
         </div>
       </div>
       
-      <!-- Departments -->
       <div id="departments-container"></div>
     </main>
     
-    <!-- Right Activity Panel -->
     <aside class="activity-panel">
       <div class="activity-title">
         <span>📡</span>
@@ -609,12 +824,91 @@
     </aside>
   </div>
   
+  <!-- Agent Detail Modal -->
+  <div class="modal-overlay" id="agent-modal" onclick="closeModal(event)">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-avatar" id="modal-avatar">A</div>
+        <div class="modal-title">
+          <h2 id="modal-name">Agent Name</h2>
+          <div class="role" id="modal-role">Role</div>
+        </div>
+        <button class="modal-close" onclick="closeModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-section">
+          <h3>Status</h3>
+          <span class="status-badge" id="modal-status">Working</span>
+        </div>
+        <div class="modal-section">
+          <h3>Current Task</h3>
+          <p id="modal-task">Building new features...</p>
+        </div>
+        <div class="modal-section">
+          <h3>Credentials</h3>
+          <p id="modal-credentials">PhD in Everything</p>
+        </div>
+        <div class="modal-section">
+          <h3>Skills</h3>
+          <div class="skill-tags" id="modal-skills">
+            <span class="skill-tag">AI/ML</span>
+            <span class="skill-tag">Architecture</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="assignTask()">Assign Task</button>
+        <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Sound Toggle -->
+  <div class="sound-toggle" id="sound-toggle" onclick="toggleSound()">
+    🔊
+  </div>
+  
   <script>
+    // Configuration
     const API_BASE = window.location.origin;
     let ws = null;
     let agentsData = null;
     let statusData = null;
+    let soundEnabled = true;
+    let currentFilter = 'all';
     
+    // Audio context for sounds
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    
+    function playSound(type) {
+      if (!soundEnabled) return;
+      
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      if (type === 'complete') {
+        oscillator.frequency.value = 800;
+        gainNode.gain.value = 0.1;
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + 0.1);
+      } else if (type === 'ping') {
+        oscillator.frequency.value = 1200;
+        gainNode.gain.value = 0.05;
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + 0.05);
+      }
+    }
+    
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      document.getElementById('sound-toggle').classList.toggle('muted', !soundEnabled);
+      document.getElementById('sound-toggle').textContent = soundEnabled ? '🔊' : '🔇';
+    }
+    
+    // Departments config
     const departments = {
       executive: { name: 'Executive', icon: '👑', color: '#FFD700' },
       technology: { name: 'Technology', icon: '💻', color: '#00d4ff' },
@@ -626,13 +920,38 @@
       nex: { name: 'Nex Travel', icon: '✈️', color: '#6366f1' }
     };
     
+    // Terminal logging
+    function logToTerminal(agent, message) {
+      const terminal = document.getElementById('terminal');
+      const time = new Date().toLocaleTimeString('en-US', { hour12: false });
+      const line = document.createElement('div');
+      line.className = 'terminal-line';
+      line.innerHTML = `
+        <span class="terminal-time">${time}</span>
+        <span class="terminal-agent">[${agent.toUpperCase()}]</span>
+        <span class="terminal-msg">${message}</span>
+      `;
+      terminal.insertBefore(line, terminal.lastElementChild);
+      while (terminal.children.length > 20) {
+        terminal.removeChild(terminal.firstElementChild);
+      }
+      terminal.scrollTop = terminal.scrollHeight;
+    }
+    
+    // Initialize
     async function init() {
       await loadData();
       renderDepartments();
       updateStats();
+      startLiveSimulation();
       connectWebSocket();
       updateClock();
       setInterval(updateClock, 1000);
+      
+      // Search listener
+      document.getElementById('search-input').addEventListener('input', (e) => {
+        searchAgents(e.target.value);
+      });
     }
     
     async function loadData() {
@@ -689,6 +1008,7 @@
         const deptSection = document.createElement('div');
         deptSection.className = 'department';
         deptSection.id = `dept-${deptId}`;
+        deptSection.dataset.dept = deptId;
         deptSection.innerHTML = `
           <div class="dept-header">
             <span class="dept-icon">${dept.icon}</span>
@@ -704,55 +1024,161 @@
     }
     
     function renderAgentCard(agent) {
-      const status = statusData?.agents?.[agent.id] || { status: 'offline' };
+      const status = statusData?.agents?.[agent.id] || { status: 'offline', task: '', detail: '', progress: 0 };
       const isWorking = status.status === 'working';
-      const isIdle = status.status === 'idle';
-      const isOffline = status.status === 'offline' || !status.status;
+      const initials = agent.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
       
-      const taskText = status.task || (isOffline ? 'Offline' : 'No active task');
-      const taskDetail = status.detail || '';
-      
-      const progressBar = status.progress ? `
-        <div class="progress-bar">
-          <div class="progress-fill" style="width: ${status.progress}%"></div>
+      const progressHtml = isWorking && status.progress ? `
+        <div class="agent-progress">
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: ${status.progress}%" data-progress="${status.progress}"></div>
+          </div>
+          <span class="progress-text">${status.progress}%</span>
         </div>
       ` : '';
       
-      const lastActive = status.lastActive ? formatTime(status.lastActive) : 'Never';
-      
       return `
-        <div class="agent-card ${status.status || 'offline'}" data-agent="${agent.id}">
+        <div class="agent-card ${status.status || 'offline'}" data-agent="${agent.id}" onclick="openAgentModal('${agent.id}')">
           <div class="agent-header">
-            <div class="agent-avatar-wrapper">
-              <div class="agent-avatar">${agent.emoji}</div>
-            </div>
+            <div class="agent-avatar" style="background: ${getAvatarColor(agent.department)}">${initials}</div>
             <div class="agent-info">
               <div class="agent-name">${agent.name}</div>
               <div class="agent-role">${agent.role}</div>
             </div>
           </div>
-          <div class="agent-task">${isWorking ? '▸ ' : ''}${taskText}</div>
-          ${taskDetail ? `<div class="agent-detail">${taskDetail}</div>` : ''}
-          ${progressBar}
-          <div class="agent-meta">
-            ${isWorking ? '<span style="color: var(--neon-green);">● Active</span>' : lastActive}
-          </div>
+          <div class="agent-task">${isWorking ? '▸ ' : ''}${status.task || 'No active task'}</div>
+          ${progressHtml}
         </div>
       `;
     }
     
-    function updateStats() {
-      if (!statusData) return;
+    function getAvatarColor(dept) {
+      const colors = {
+        executive: 'linear-gradient(145deg, #FFD700, #B8860B)',
+        technology: 'linear-gradient(145deg, #00d4ff, #0099cc)',
+        creative: 'linear-gradient(145deg, #ff6b9d, #e91e63)',
+        finance: 'linear-gradient(145deg, #00ff88, #00cc6a)',
+        operations: 'linear-gradient(145deg, #9d4edd, #7b2cbf)',
+        legal: 'linear-gradient(145deg, #ff6b35, #e65100)',
+        services: 'linear-gradient(145deg, #4ecdc4, #26a69a)',
+        nex: 'linear-gradient(145deg, #6366f1, #4f46e5)'
+      };
+      return colors[dept] || 'linear-gradient(145deg, #606070, #404050)';
+    }
+    
+    // Live simulation
+    function startLiveSimulation() {
+      // Progress simulation
+      setInterval(() => {
+        if (!statusData) return;
+        
+        Object.entries(statusData.agents).forEach(([agentId, status]) => {
+          if (status.status === 'working' && status.progress && status.progress < 100) {
+            // Random progress increment
+            const increment = Math.random() * 3;
+            status.progress = Math.min(100, Math.floor(status.progress + increment));
+            
+            // Update progress bar
+            const card = document.querySelector(`[data-agent="${agentId}"]`);
+            if (card) {
+              const fill = card.querySelector('.progress-fill');
+              const text = card.querySelector('.progress-text');
+              if (fill && text) {
+                fill.style.width = `${status.progress}%`;
+                fill.dataset.progress = status.progress;
+                text.textContent = `${status.progress}%`;
+              }
+            }
+            
+            // Complete task
+            if (status.progress >= 100) {
+              completeTask(agentId);
+            }
+          }
+        });
+      }, 2000);
       
-      const agents = Object.values(statusData.agents || {});
-      const working = agents.filter(a => a.status === 'working').length;
-      const idle = agents.filter(a => a.status === 'idle').length;
-      const offline = agents.filter(a => !a.status || a.status === 'offline').length;
+      // Random task completion and new assignments
+      setInterval(() => {
+        if (!statusData || Math.random() > 0.3) return;
+        
+        const workingAgents = Object.entries(statusData.agents)
+          .filter(([_, s]) => s.status === 'working' && s.progress >= 90);
+        
+        if (workingAgents.length > 0) {
+          const [agentId] = workingAgents[Math.floor(Math.random() * workingAgents.length)];
+          completeTask(agentId);
+        }
+      }, 5000);
+    }
+    
+    function completeTask(agentId) {
+      const agent = agentsData[agentId];
+      const status = statusData.agents[agentId];
       
-      document.getElementById('working-count').textContent = working;
-      document.getElementById('idle-count').textContent = idle;
-      document.getElementById('offline-count').textContent = offline;
-      document.getElementById('active-count').textContent = `${working + idle}/47`;
+      if (!agent || !status) return;
+      
+      // Mark complete
+      status.progress = 100;
+      
+      // Add to activity
+      const activities = [
+        { text: `Completed: ${status.task}`, icon: '✅' },
+        { text: 'Deployed to production', icon: '🚀' },
+        { text: 'Finished code review', icon: '👀' },
+        { text: 'Optimized performance', icon: '⚡' },
+        { text: 'Fixed critical bug', icon: '🐛' }
+      ];
+      const activity = activities[Math.floor(Math.random() * activities.length)];
+      
+      addActivity(agent.name, activity.text, activity.icon);
+      logToTerminal(agent.name, `Task completed: ${status.task}`);
+      playSound('complete');
+      
+      // Assign new task after delay
+      setTimeout(() => {
+        const tasks = [
+          'Building new feature',
+          'Optimizing database queries',
+          'Writing tests',
+          'Reviewing PR',
+          'Refactoring code',
+          'Updating documentation',
+          'Debugging issue',
+          'Implementing API'
+        ];
+        status.task = tasks[Math.floor(Math.random() * tasks.length)];
+        status.progress = Math.floor(Math.random() * 20);
+        status.status = 'working';
+        
+        // Update card
+        const card = document.querySelector(`[data-agent="${agentId}"]`);
+        if (card) {
+          card.className = `agent-card working`;
+          const taskEl = card.querySelector('.agent-task');
+          if (taskEl) taskEl.textContent = `▸ ${status.task}`;
+        }
+        
+        addActivity(agent.name, `Started: ${status.task}`, '🎯');
+        logToTerminal(agent.name, `New task assigned: ${status.task}`);
+      }, 3000);
+    }
+    
+    function addActivity(agent, text, icon) {
+      const feed = document.getElementById('activity-feed');
+      const item = document.createElement('div');
+      item.className = 'activity-item';
+      item.innerHTML = `
+        <span class="activity-icon">${icon}</span>
+        <div class="activity-content">
+          <div class="activity-text">
+            <span class="activity-agent">${agent}</span> ${text}
+          </div>
+          <div class="activity-time">Just now</div>
+        </div>
+      `;
+      feed.insertBefore(item, feed.firstChild);
+      while (feed.children.length > 50) feed.removeChild(feed.lastChild);
     }
     
     function renderActivity(activities) {
@@ -775,57 +1201,116 @@
       `).join('');
     }
     
+    function updateStats() {
+      if (!statusData) return;
+      
+      const agents = Object.values(statusData.agents || {});
+      const working = agents.filter(a => a.status === 'working').length;
+      const idle = agents.filter(a => a.status === 'idle').length;
+      const offline = agents.filter(a => !a.status || a.status === 'offline').length;
+      
+      document.getElementById('working-count').textContent = working;
+      document.getElementById('idle-count').textContent = idle;
+      document.getElementById('offline-count').textContent = offline;
+      document.getElementById('active-count').textContent = `${working + idle}/47`;
+    }
+    
+    // Modal functions
+    function openAgentModal(agentId) {
+      const agent = agentsData[agentId];
+      const status = statusData?.agents?.[agentId] || { status: 'offline', task: '', detail: '' };
+      
+      if (!agent) return;
+      
+      document.getElementById('modal-avatar').textContent = agent.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+      document.getElementById('modal-avatar').style.background = getAvatarColor(agent.department);
+      document.getElementById('modal-name').textContent = agent.name;
+      document.getElementById('modal-role').textContent = agent.role;
+      document.getElementById('modal-task').textContent = status.task || 'No active task';
+      document.getElementById('modal-credentials').textContent = agent.credentials || 'No credentials listed';
+      
+      const statusBadge = document.getElementById('modal-status');
+      statusBadge.className = `status-badge ${status.status || 'offline'}`;
+      statusBadge.innerHTML = `<span>●</span> ${(status.status || 'offline').toUpperCase()}`;
+      
+      // Skills
+      const skills = agent.credentials ? extractSkills(agent.credentials) : ['AI/ML', 'Architecture'];
+      document.getElementById('modal-skills').innerHTML = skills.map(s => `<span class="skill-tag">${s}</span>`).join('');
+      
+      document.getElementById('agent-modal').classList.add('active');
+    }
+    
+    function extractSkills(credentials) {
+      const commonSkills = ['AI/ML', 'Architecture', 'Cloud', 'Security', 'Data', 'Frontend', 'Backend', 'DevOps'];
+      return commonSkills.filter(skill => credentials.toLowerCase().includes(skill.toLowerCase()));
+    }
+    
+    function closeModal(event) {
+      if (!event || event.target.id === 'agent-modal') {
+        document.getElementById('agent-modal').classList.remove('active');
+      }
+    }
+    
+    function assignTask() {
+      alert('Task assignment feature coming soon!');
+      closeModal();
+    }
+    
+    // Search
+    function searchAgents(query) {
+      const cards = document.querySelectorAll('.agent-card');
+      query = query.toLowerCase();
+      
+      cards.forEach(card => {
+        const agentId = card.dataset.agent;
+        const agent = agentsData[agentId];
+        const match = agent.name.toLowerCase().includes(query) ||
+                     agent.role.toLowerCase().includes(query) ||
+                     (agent.department && agent.department.toLowerCase().includes(query));
+        card.classList.toggle('hidden', !match);
+      });
+    }
+    
+    // Filter by department
+    function filterByDept(dept) {
+      currentFilter = dept;
+      const depts = document.querySelectorAll('.department');
+      
+      if (dept === 'all') {
+        depts.forEach(d => d.classList.remove('hidden'));
+      } else {
+        depts.forEach(d => {
+          d.classList.toggle('hidden', d.dataset.dept !== dept);
+        });
+      }
+      
+      // Update nav active state
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+      event.target.closest('.nav-item').classList.add('active');
+    }
+    
+    function showAnalytics() {
+      alert('Analytics dashboard coming soon!');
+    }
+    
+    function toggleMobileMenu() {
+      const sidebar = document.querySelector('.sidebar');
+      sidebar.style.display = sidebar.style.display === 'flex' ? 'none' : 'flex';
+    }
+    
+    // WebSocket
     function connectWebSocket() {
       const wsUrl = API_BASE.replace(/^http/, 'ws');
       ws = new WebSocket(wsUrl);
       
       ws.onmessage = (event) => {
         const msg = JSON.parse(event.data);
-        
         if (msg.type === 'status') {
-          updateAgentCard(msg.agentId, msg.data);
           updateStats();
-        } else if (msg.type === 'activity') {
-          prependActivity(msg.data);
         }
       };
       
       ws.onclose = () => setTimeout(connectWebSocket, 5000);
-    }
-    
-    function updateAgentCard(agentId, data) {
-      const card = document.querySelector(`[data-agent="${agentId}"]`);
-      if (!card) return;
-      
-      card.className = `agent-card ${data.status || 'offline'}`;
-      
-      const taskEl = card.querySelector('.agent-task');
-      if (taskEl) taskEl.innerHTML = (data.status === 'working' ? '▸ ' : '') + (data.task || 'No active task');
-      
-      const detailEl = card.querySelector('.agent-detail');
-      if (detailEl) detailEl.textContent = data.detail || '';
-    }
-    
-    function prependActivity(activity) {
-      const feed = document.getElementById('activity-feed');
-      const item = document.createElement('div');
-      item.className = 'activity-item';
-      item.innerHTML = `
-        <span class="activity-icon">${activity.icon || '⚡'}</span>
-        <div class="activity-content">
-          <div class="activity-text">
-            <span class="activity-agent">${activity.agent}</span> ${activity.text}
-          </div>
-          <div class="activity-time">Just now</div>
-        </div>
-      `;
-      feed.insertBefore(item, feed.firstChild);
-      while (feed.children.length > 20) feed.removeChild(feed.lastChild);
-    }
-    
-    function scrollToDept(deptId) {
-      const el = document.getElementById(`dept-${deptId}`);
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
     
     function formatTime(timestamp) {
@@ -845,11 +1330,15 @@
         now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
     }
     
+    // Start
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', init);
     } else {
       init();
     }
+    
+    // Play startup sound
+    setTimeout(() => playSound('ping'), 1000);
   </script>
 </body>
 </html>
