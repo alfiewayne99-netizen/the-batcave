@@ -3,9 +3,65 @@ const { WebSocketServer } = require('ws');
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const compression = require('compression');
 
 const app = express();
 const PORT = process.env.PORT || 3334;
+
+// ============ SECURITY HEADERS MIDDLEWARE ============
+// HSTS - HTTP Strict Transport Security
+app.use((req, res, next) => {
+    res.header('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
+    next();
+});
+
+// Content Security Policy
+app.use((req, res, next) => {
+    res.header('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https:; connect-src 'self' ws: wss:; frame-ancestors 'none';");
+    next();
+});
+
+// X-Frame-Options - Prevent clickjacking
+app.use((req, res, next) => {
+    res.header('X-Frame-Options', 'DENY');
+    next();
+});
+
+// X-Content-Type-Options - Prevent MIME sniffing
+app.use((req, res, next) => {
+    res.header('X-Content-Type-Options', 'nosniff');
+    next();
+});
+
+// X-XSS-Protection
+app.use((req, res, next) => {
+    res.header('X-XSS-Protection', '1; mode=block');
+    next();
+});
+
+// Referrer Policy
+app.use((req, res, next) => {
+    res.header('Referrer-Policy', 'strict-origin-when-cross-origin');
+    next();
+});
+
+// Permissions Policy
+app.use((req, res, next) => {
+    res.header('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+    next();
+});
+
+// Remove X-Powered-By header
+app.disable('x-powered-by');
+
+// Compression middleware - Gzip responses
+app.use(compression({
+    level: 6,
+    filter: (req, res) => {
+        if (req.headers['x-no-compression']) return false;
+        return compression.filter(req, res);
+    }
+}));
 
 // ============ DATA STORES ============
 let agentsConfig = loadJSON('agents.json');
@@ -55,10 +111,25 @@ fs.watchFile(path.join(__dirname, 'agents.json'), () => {
 
 // ============ MIDDLEWARE ============
 app.use(express.json());
+
+// CORS - Restrictive configuration
+const ALLOWED_ORIGINS = [
+    'https://the-batcave.onrender.com',
+    'https://nexvoy.travel',
+    'https://www.nexvoy.travel',
+    'http://localhost:3334',
+    'http://localhost:3000',
+    'http://localhost:5173'
+];
+
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    const origin = req.headers.origin;
+    if (ALLOWED_ORIGINS.includes(origin)) {
+        res.header('Access-Control-Allow-Origin', origin);
+    }
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Credentials', 'true');
     if (req.method === 'OPTIONS') return res.sendStatus(200);
     next();
 });
