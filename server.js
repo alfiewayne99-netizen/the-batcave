@@ -650,9 +650,10 @@ setInterval(() => {
     }
 }, 30000);
 
-// ============ START SERVER ============
-server.listen(PORT, '0.0.0.0', () => {
-    console.log(`
+// ============ START SERVER (Local Dev) ============
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+    server.listen(PORT, '0.0.0.0', () => {
+        console.log(`
 ╔════════════════════════════════════════════╗
 ║       RAVEN FACE v2 - PRODUCTION READY     ║
 ╠════════════════════════════════════════════╣
@@ -671,13 +672,18 @@ server.listen(PORT, '0.0.0.0', () => {
 ║  ✓ Settings panel                          ║
 ╚════════════════════════════════════════════╝
     `);
-});
+    });
 
-// Graceful shutdown
-process.on('SIGTERM', () => {
-    console.log('[Server] Shutting down...');
-    wss.close();
-    server.close();
-    process.exit(0);
-});
+    // Graceful shutdown
+    process.on('SIGTERM', () => {
+        console.log('[Server] Shutting down...');
+        wss.close();
+        server.close();
+        process.exit(0);
+    });
+}
+
+// ============ VERCEL EXPORT ============
+// Export for Vercel serverless deployment
+module.exports = app;
 // Force redeploy Mon Feb  9 19:43:36 +04 2026
