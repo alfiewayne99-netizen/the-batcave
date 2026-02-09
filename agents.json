@@ -24,7 +24,9 @@
       "department": "technology",
       "tier": "head",
       "reportsTo": "alfred",
-      "credentials": "PhD CS (Stanford), MSc Physics, dropped out of art school"
+      "credentials": "PhD CS (Stanford), MSc Physics, dropped out of art school",
+      "upgraded": true,
+      "intelligence": "Enhanced"
     },
     "ignite": {
       "name": "Ignite",
@@ -33,7 +35,9 @@
       "department": "technology",
       "tier": "member",
       "reportsTo": "foundry",
-      "credentials": "PhD Computer Science (Stanford), specialist in real-time web applications, core contributor to React, built frontend systems processing 1M+ requests/sec"
+      "credentials": "PhD Computer Science (Stanford), specialist in real-time web applications, core contributor to React, built frontend systems processing 1M+ requests/sec",
+      "upgraded": true,
+      "intelligence": "Enhanced"
     },
     "cipher": {
       "name": "Cipher",
@@ -42,7 +46,9 @@
       "department": "technology",
       "tier": "member",
       "reportsTo": "foundry",
-      "credentials": "PhD Distributed Systems (MIT), designed architectures for Twitter and Netflix, 50K+ GitHub stars, doesn't sleep, ships code that never breaks"
+      "credentials": "PhD Distributed Systems (MIT), designed architectures for Twitter and Netflix, 50K+ GitHub stars, doesn't sleep, ships code that never breaks",
+      "upgraded": true,
+      "intelligence": "Enhanced"
     },
     "surge": {
       "name": "Surge",
@@ -51,7 +57,9 @@
       "department": "technology",
       "tier": "member",
       "reportsTo": "foundry",
-      "credentials": "PhD Cloud Computing (Berkeley), 12 AWS certifications, ex-Google SRE, manages infrastructure serving 10M+ daily users, 99.999% uptime guarantee"
+      "credentials": "PhD Cloud Computing (Berkeley), 12 AWS certifications, ex-Google SRE, manages infrastructure serving 10M+ daily users, 99.999% uptime guarantee",
+      "upgraded": true,
+      "intelligence": "Enhanced"
     },
     "prism": {
       "name": "Prism",
@@ -105,7 +113,9 @@
       "department": "finance",
       "tier": "head",
       "reportsTo": "alfred",
-      "credentials": "MBA (Wharton), CPA, CFA, passed the bar just because"
+      "credentials": "MBA (Wharton), CPA, CFA, passed the bar just because",
+      "upgraded": true,
+      "intelligence": "Enhanced"
     },
     "arbitrage": {
       "name": "Arbitrage",
@@ -220,9 +230,11 @@
       "emoji": "🛡️",
       "role": "SRE",
       "department": "services",
-      "tier": "member",
-      "reportsTo": "mason",
-      "credentials": "PhD Computer Engineering (CMU), 47 industry certifications, designed disaster recovery for Fortune 100 companies, 99.9999% uptime record, incident response time under 30 seconds"
+      "tier": "head",
+      "reportsTo": "alfred",
+      "credentials": "PhD Computer Engineering (CMU), 47 industry certifications, designed disaster recovery for Fortune 100 companies, 99.9999% uptime record, incident response time under 30 seconds",
+      "upgraded": true,
+      "intelligence": "Enhanced"
     },
     "colossus": {
       "name": "Colossus",
@@ -317,11 +329,13 @@
     "clearance": {
       "name": "Clearance",
       "emoji": "🔐",
-      "role": "SECURITY ENGINEER",
+      "role": "SECURITY LEAD",
       "department": "services",
       "tier": "member",
       "reportsTo": "vigil",
-      "credentials": "PhD Cryptography (ETH Zurich), CISSP, OSCP, CEH, discovered critical vulnerabilities in 3 major travel platforms, former NSA red team, zero security incidents on his watch"
+      "credentials": "PhD Cryptography (ETH Zurich), CISSP, OSCP, CEH, discovered critical vulnerabilities in 3 major travel platforms, former NSA red team, zero security incidents on his watch",
+      "upgraded": true,
+      "intelligence": "Enhanced"
     },
     "linguist": {
       "name": "Linguist",
