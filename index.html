@@ -1003,8 +1003,12 @@
         now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
     }
     
-    // Start
-    init();
+    // Start when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
   </script>
 </body>
 </html>
