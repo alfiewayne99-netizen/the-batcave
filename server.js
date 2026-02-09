@@ -62,8 +62,6 @@ app.use((req, res, next) => {
     if (req.method === 'OPTIONS') return res.sendStatus(200);
     next();
 });
-app.use(express.static(__dirname));
-
 // ============ REST API ============
 
 // Get config (agents + departments)
@@ -514,6 +512,10 @@ app.get('/health/scraper', (req, res) => {
         });
     }
 });
+
+// ============ STATIC FILES ============
+// Serve static files AFTER API routes so /api/* works properly
+app.use(express.static(__dirname));
 
 // ============ HTTP + WEBSOCKET SERVER ============
 const server = http.createServer(app);
